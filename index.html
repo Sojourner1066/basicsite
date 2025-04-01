@@ -28,6 +28,14 @@
   </body>
 
   <script type="text/javascript">
+    let countryCentroids = null; // Declare globally
+
+    async function loadCountryCentroids() {
+        const data = await fetchWikidataGeoJSON();
+        console.log("Loaded country centroids:", data);
+        countryCentroids = data; // Assign data to global variable
+        // return data;
+    }
     
     const {DeckGL, GeoJsonLayer, ArcLayer} = deck;
     
