@@ -62,7 +62,8 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
   }
 
 function renderLayers(data, selectedFeature) {
-  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria'); 
+  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria');
+  console.log(data.properties.adm0_iso);
   const targetIsoCodes = getRandomISO3Codes(8);
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
 
@@ -74,7 +75,6 @@ function renderLayers(data, selectedFeature) {
     autoHighlight: true,
     pickable: true,
     highlightColor: [158, 154, 200, 255],
-    // getFillColor: () => [0, 0, 0, 0],
     getFillColor: () => [203, 201, 226, 255],
     getLineColor: () => [158, 154, 200, 255],
     lineWidthMinPixels: 1,
