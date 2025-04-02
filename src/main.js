@@ -1,7 +1,5 @@
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 
-const targetIsoCodes = ['FRA', 'DEU', 'JPN'];
-
 const deckgl = new DeckGL({
 // Positron (light)
 // mapStyle: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
@@ -63,8 +61,8 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
 
 function renderLayers(data, selectedFeature) {
   selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria'); 
-
-  const arcLayer = getArcLayer(data, selectedFeature);
+  const targetIsoCodes = ['FRA', 'DEU', 'JPN'];
+  const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
 
   const countyLayer = new GeoJsonLayer({
     id: 'geojson',
