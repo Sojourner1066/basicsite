@@ -75,9 +75,9 @@ function getArcLayer(data, selectedFeature) {
 }
 
 function renderLayers(data, selectedFeature) {
-  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Los Angeles, CA');
+  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'United States of America'); //'Los Angeles, CA');
 
-  const arcLayer = getArcLayer(data, selectedFeature);
+//   const arcLayer = getArcLayer(data, selectedFeature);
 
   const countyLayer = new GeoJsonLayer({
     id: 'geojson',
@@ -86,13 +86,39 @@ function renderLayers(data, selectedFeature) {
     filled: true,
     autoHighlight: true,
     pickable: true,
-    getFillColor: () => [0, 0, 0, 0],
+    highlightColor: [158, 154, 200, 255],
+    // getFillColor: () => [0, 0, 0, 0],
+    getFillColor: () => [203, 201, 226, 255],
+    getLineColor: () => [158, 154, 200, 255],
     onClick: info => renderLayers(data, info.object)
   });
 
-  deckgl.setProps({ layers: [countyLayer, arcLayer] });
-}
+//   const defaultStyle = {
+//     fillColor: "#cbc9e2", 
+//     color: "#9e9ac8",       // Border color
+//     weight: 1,
+//     fillOpacity: 0.6
+// };
 
-fetch('https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/arc/counties.json')
+// const hoverStyle = {
+//     fillColor: "#9e9ac8",
+//     color: "#9e9ac8",
+//     weight: 1,
+//     fillOpacity: 0.8
+// };
+
+// const selectedStyle = {
+//     fillColor: "#54278f", 
+//     weight: 1
+// };
+
+
+//   deckgl.setProps({ layers: [countyLayer, arcLayer] });
+  deckgl.setProps({ layers: [countyLayer] });
+}
+fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
   .then(data => renderLayers(data));
+// fetch('https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/arc/counties.json')
+//   .then(res => res.json())
+//   .then(data => renderLayers(data));
