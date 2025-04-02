@@ -1,4 +1,5 @@
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
+import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
 
 const deckgl = new DeckGL({
 // Positron (light)
@@ -61,7 +62,7 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
 
 function renderLayers(data, selectedFeature) {
   selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria'); 
-  const targetIsoCodes = ['FRA', 'DEU', 'JPN'];
+  const targetIsoCodes = getRandomISO3Codes(8);
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
 
   const countyLayer = new GeoJsonLayer({
