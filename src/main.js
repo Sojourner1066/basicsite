@@ -29,8 +29,17 @@ const outFlowColors = [
 ];
 
 const deckgl = new DeckGL({
-//   mapStyle: 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json',
+// Positron (light)
+// mapStyle: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+// Positron (no labels)
+// mapStyle: 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json',
+// Dark Matter (dark)
 // mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+// Dark Matter (no labels)
+// mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json',
+// Voyager (more detail)
+// mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+// Voyager (no labels)
 mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json',
   initialViewState: {
     longitude: 0,
