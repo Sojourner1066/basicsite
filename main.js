@@ -66,8 +66,8 @@ async function renderLayers(data, selectedFeature) {
   selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria');
   console.log(selectedFeature.properties.adm0_iso);
   const membershipJSON = await wdGetAllMembershipsbyISO(selectedFeature.properties.adm0_iso);
-  console.log(membershipJSON);
-  const targetIsoCodes = getRandomISO3Codes(8);
+  const targetIsoCodes = membershipJSON.results.bindings.map(d => d.targetCode.value);
+  //getRandomISO3Codes(8);
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
 
   const countyLayer = new GeoJsonLayer({

@@ -1,0 +1,1301 @@
+{
+    "head": {
+      "vars": [
+        "targetCode"
+      ]
+    },
+    "results": {
+      "bindings": [
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ABW"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AFG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AGO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AIA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ALB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AND"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ANT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ARE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ARG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ARM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ATG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AUS"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AUT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "AZE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BDI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BEL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BEN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BFA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BGD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BGR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BHR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BHS"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BIH"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BLR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BLZ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BMU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BOL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BRA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BRB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BRN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BTN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "BWA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CAF"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CAN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CHE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CHL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CHN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CIV"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CMR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "COD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "COG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "COK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "COL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "COM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CPV"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CRI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CSK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CUB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CUW"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CYM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CYP"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "CZE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "DEU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "DJI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "DMA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "DNK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "DOM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "DZA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ECU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "EGY"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ERI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ESP"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "EST"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ETH"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "FIN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "FJI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "FRA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "FRO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "FSM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GAB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GBR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GEO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GHA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GIB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GIN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GMB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GNB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GNQ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GRC"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GRD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GTM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "GUY"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "HKG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "HND"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "HRV"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "HTI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "HUN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "IDN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "IND"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "IRL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "IRN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "IRQ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ISL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ISR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ITA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "JAM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "JOR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "JPN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KAZ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KEN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KGZ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KHM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KIR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KNA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KOR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "KWT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LAO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LBN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LBR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LBY"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LCA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LIE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LKA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LSO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LTU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LUX"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "LVA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MAC"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MAR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MCO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MDA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MDG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MDV"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MEX"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MHL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MKD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MLI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MLT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MMR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MNE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MNG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MOZ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MRT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MSR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MUS"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MWI"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "MYS"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NAM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NCL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NER"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NIC"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NIU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NLD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NOR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NPL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NRU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "NZL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "OMN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PAK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PAN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PER"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PHL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PLW"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PNG"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "POL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PRK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PRT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PRY"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PSE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "PYF"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "QAT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ROU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "RUS"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "RWA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SAU"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SDN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SEN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SGP"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SLB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SLE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SLV"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SMR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SOM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SRB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SSD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "STP"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SUR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SVK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SVN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SWE"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SWZ"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SXM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SYC"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "SYR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TCA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TCD"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TGO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "THA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TJK"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TKL"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TKM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TLS"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TON"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TTO"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TUN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TUR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TUV"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TWN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "TZA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "UGA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "UKR"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "URY"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "USA"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "UZB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "VAT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "VCT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "VEN"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "VGB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "VNM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "VUT"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "WSM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "YEM"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ZAF"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ZMB"
+          }
+        },
+        {
+          "targetCode": {
+            "type": "literal",
+            "value": "ZWE"
+          }
+        }
+      ]
+    }
+  }
