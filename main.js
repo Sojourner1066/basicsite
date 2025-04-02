@@ -32,7 +32,7 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
   
     // Lookup by adm0_a3
     const featureByIso = Object.fromEntries(
-      data.features.map(f => [f.properties.adm0_a3, f])
+      data.features.map(f => [f.properties.adm0_iso, f])
     );
   
     // Build arcs to each target country
