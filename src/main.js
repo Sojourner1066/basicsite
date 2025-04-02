@@ -29,10 +29,11 @@ const outFlowColors = [
 ];
 
 const deckgl = new DeckGL({
-  mapStyle: 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json',
+//   mapStyle: 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json',
+mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
   initialViewState: {
-    longitude: -100,
-    latitude: 40.7,
+    longitude: 0,
+    latitude: 0,
     zoom: 3,
     maxZoom: 15,
     pitch: 30,
@@ -75,14 +76,14 @@ function getArcLayer(data, selectedFeature) {
 }
 
 function renderLayers(data, selectedFeature) {
-  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'United States of America'); //'Los Angeles, CA');
+  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria'); 
 
 //   const arcLayer = getArcLayer(data, selectedFeature);
 
   const countyLayer = new GeoJsonLayer({
     id: 'geojson',
     data,
-    stroked: false,
+    stroked: true,
     filled: true,
     autoHighlight: true,
     pickable: true,
