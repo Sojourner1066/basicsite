@@ -63,7 +63,7 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
 
 function renderLayers(data, selectedFeature) {
   selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria');
-  console.log(data.properties.adm0_iso);
+  console.log(selectedFeature);
   const targetIsoCodes = getRandomISO3Codes(8);
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
 
