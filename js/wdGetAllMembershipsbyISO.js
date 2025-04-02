@@ -1,5 +1,5 @@
 
-async function wdGetAllMembershipsbyISO(iso3="NGA") {
+export async function wdGetAllMembershipsbyISO(iso3="NGA") {
     const query = `# This query finds all current memberships of a target country (e.g. Nigeria),
 # and then finds all other countries that are also members of those same organizations.
 # It returns ISO 3166-1 alpha-3 codes for both the target and other countries, 
