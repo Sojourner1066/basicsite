@@ -24,7 +24,8 @@ mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json
   },
   controller: true,
   layers: [],
-  getTooltip: ({ object }) => object && object.properties.name
+  // getTooltip: ({ object }) => object && object.properties.name
+  getTooltip: ({ object }) => object?.properties?.name
 });
 
 function getArcLayer(data, selectedFeature, targetIsoCodes) {
