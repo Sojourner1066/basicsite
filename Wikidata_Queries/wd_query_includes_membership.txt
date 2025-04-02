@@ -1,0 +1,44 @@
+# This query finds all current memberships of a source country (e.g. Nigeria),
+# and then finds all target countries that are also members of those same organizations.
+# It returns ISO 3166-1 alpha-3 codes for both the source and target countries, 
+# along with the organization (membership) involved.
+
+SELECT DISTINCT 
+  ?sourceCountry       # Wikidata entity for the source country (e.g., wd:Q1033 for Nigeria)
+  ?sourceCode          # ISO 3166-1 alpha-3 code for the source country
+  ?membership          # Wikidata entity for the organization or group
+  ?membershipLabel     # Human-readable label for the organization
+  ?targetCountry       # Wikidata entity for the target country that shares membership
+  ?targetCode          # ISO 3166-1 alpha-3 code for the target country
+WHERE {
+  # --------------------------
+  # STEP 1: Get the source country by ISO code
+  ?sourceCountry wdt:P298 "${iso3}".  # this is the iso code passed by the function
+
+  # STEP 2: Find all current memberships of the source country
+  ?sourceCountry p:P463 ?sourceStatement.        # P463 = member of
+  ?sourceStatement ps:P463 ?membership.          # Get the organization entity
+  FILTER NOT EXISTS { ?sourceStatement pq:P582 ?endTime }  # Only include current memberships
+
+  # STEP 3: Get the ISO code of the source country (will just return the input iso again, but good for structure)
+  ?sourceCountry wdt:P298 ?sourceCode.
+
+  # --------------------------
+  # STEP 4: Find target countries that are also members of the same organization
+  ?targetCountry p:P463 ?targetStatement.
+  ?targetStatement ps:P463 ?membership.            # Must be the same organization
+  FILTER NOT EXISTS { ?targetStatement pq:P582 ?endTime }  # Must be current
+
+  # STEP 5: Get the ISO alpha-3 code of each target country
+  ?targetCountry wdt:P298 ?targetCode.
+
+  # STEP 6: Make sure we don't include the source country itself in the results
+  FILTER(?targetCountry != ?sourceCountry)
+
+  # --------------------------
+  # STEP 7: Get human-readable labels (e.g., for ?membership)
+  SERVICE wikibase:label { 
+    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". 
+  }
+}
+ORDER BY ?membershipLabel ?targetCode
