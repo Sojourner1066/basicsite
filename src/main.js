@@ -30,7 +30,8 @@ const outFlowColors = [
 
 const deckgl = new DeckGL({
 //   mapStyle: 'https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json',
-mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+// mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json',
   initialViewState: {
     longitude: 0,
     latitude: 0,
@@ -91,6 +92,7 @@ function renderLayers(data, selectedFeature) {
     // getFillColor: () => [0, 0, 0, 0],
     getFillColor: () => [203, 201, 226, 255],
     getLineColor: () => [158, 154, 200, 255],
+    lineWidthMinPixels: 1,
     onClick: info => renderLayers(data, info.object)
   });
 
