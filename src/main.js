@@ -1,32 +1,6 @@
-let countryCentroids = null;
-
-async function loadCountryCentroids() {
-  const data = await fetchWikidataGeoJSON();
-  console.log("Loaded country centroids:", data);
-  countryCentroids = data;
-}
-
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 
-const inFlowColors = [
-  [255, 255, 204],
-  [199, 233, 180],
-  [127, 205, 187],
-  [65, 182, 196],
-  [29, 145, 192],
-  [34, 94, 168],
-  [12, 44, 132]
-];
-
-const outFlowColors = [
-  [255, 255, 178],
-  [254, 217, 118],
-  [254, 178, 76],
-  [253, 141, 60],
-  [252, 78, 42],
-  [227, 26, 28],
-  [177, 0, 38]
-];
+const targetIsoCodes = ['FRA', 'DEU', 'JPN'];
 
 const deckgl = new DeckGL({
 // Positron (light)
@@ -54,41 +28,43 @@ mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json
   getTooltip: ({ object }) => object && object.properties.name
 });
 
-function getArcLayer(data, selectedFeature) {
-  const { flows, centroid } = selectedFeature.properties;
-  const arcs = Object.keys(flows).map(toId => {
-    const f = data.features[toId];
-    return {
-      source: centroid,
-      target: f.properties.centroid,
-      value: flows[toId]
-    };
-  });
-
-  const scale = d3.scaleQuantile()
-    .domain(arcs.map(a => Math.abs(a.value)))
-    .range(inFlowColors.map((c, i) => i));
-
-  arcs.forEach(a => {
-    a.gain = Math.sign(a.value);
-    a.quantile = scale(Math.abs(a.value));
-  });
-
-  return new ArcLayer({
-    id: 'arc',
-    data: arcs,
-    getSourcePosition: d => d.source,
-    getTargetPosition: d => d.target,
-    getSourceColor: d => (d.gain > 0 ? inFlowColors : outFlowColors)[d.quantile],
-    getTargetColor: d => (d.gain > 0 ? outFlowColors : inFlowColors)[d.quantile],
-    strokeWidth: 4
-  });
-}
+function getArcLayer(data, selectedFeature, targetIsoCodes) {
+    const { centroid } = selectedFeature.properties;
+  
+    // Lookup by adm0_a3
+    const featureByIso = Object.fromEntries(
+      data.features.map(f => [f.properties.adm0_a3, f])
+    );
+  
+    // Build arcs to each target country
+    const arcs = targetIsoCodes
+      .map(iso => {
+        const targetFeature = featureByIso[iso];
+        if (!targetFeature || !targetFeature.properties.centroid) return null;
+  
+        return {
+          source: centroid,
+          target: targetFeature.properties.centroid
+        };
+      })
+      .filter(d => d); // remove nulls
+  
+    return new ArcLayer({
+      id: 'arc',
+      data: arcs,
+      getSourcePosition: d => d.source,
+      getTargetPosition: d => d.target,
+      getSourceColor: [0, 128, 200],
+      getTargetColor: [200, 0, 80],
+      strokeWidth: 4,
+      pickable: true
+    });
+  }
 
 function renderLayers(data, selectedFeature) {
   selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria'); 
 
-//   const arcLayer = getArcLayer(data, selectedFeature);
+  const arcLayer = getArcLayer(data, selectedFeature);
 
   const countyLayer = new GeoJsonLayer({
     id: 'geojson',
@@ -104,33 +80,8 @@ function renderLayers(data, selectedFeature) {
     lineWidthMinPixels: 1,
     onClick: info => renderLayers(data, info.object)
   });
-
-//   const defaultStyle = {
-//     fillColor: "#cbc9e2", 
-//     color: "#9e9ac8",       // Border color
-//     weight: 1,
-//     fillOpacity: 0.6
-// };
-
-// const hoverStyle = {
-//     fillColor: "#9e9ac8",
-//     color: "#9e9ac8",
-//     weight: 1,
-//     fillOpacity: 0.8
-// };
-
-// const selectedStyle = {
-//     fillColor: "#54278f", 
-//     weight: 1
-// };
-
-
-//   deckgl.setProps({ layers: [countyLayer, arcLayer] });
-  deckgl.setProps({ layers: [countyLayer] });
+  deckgl.setProps({ layers: [countyLayer, arcLayer] });
 }
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
   .then(data => renderLayers(data));
-// fetch('https://raw.githubusercontent.com/visgl/deck.gl-data/master/examples/arc/counties.json')
-//   .then(res => res.json())
-//   .then(data => renderLayers(data));
