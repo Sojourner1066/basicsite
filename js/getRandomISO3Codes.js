@@ -33,5 +33,5 @@ export function getRandomISO3Codes(count = 8) {
   }
   
   // Example usage:
-  const randomCountries = getRandomISO3Codes();
-  console.log("Random ISO3 codes:", randomCountries);
+  // const randomCountries = getRandomISO3Codes();
+  // console.log("Random ISO3 codes:", randomCountries);
