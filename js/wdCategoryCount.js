@@ -1,30 +1,27 @@
-
-export async function wdCategoryCounts(iso3="NGA") {
+export async function wdCategoryCounts(iso3 = "NGA") {
     const query = `SELECT ?type ?typeLabel (COUNT(DISTINCT ?membership) AS ?count) WHERE {
-  ?country wdt:P298 "${iso3}".
-  ?country wdt:P463 ?membership.
-  ?membership wdt:P31 ?type.
-
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-}
-GROUP BY ?type ?typeLabel
-ORDER BY DESC(?count)`;
-        
-
-    const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`;
-
-    try {
-        const response = await fetch(url, {
-            headers: { 'Accept': 'application/json' }
-        });
-        const data = await response.json();
-        groupMembershipsByCategory(data.results.bindings);
-        // return data;
-    } catch (error) {
-        console.error("Error fetching data:", error);
-        return null;
+      ?country wdt:P298 "${iso3}".
+      ?country wdt:P463 ?membership.
+      ?membership wdt:P31 ?type.
+  
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     }
-}
+    GROUP BY ?type ?typeLabel
+    ORDER BY DESC(?count)`;
+  
+    const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`;
+  
+    try {
+      const response = await fetch(url, {
+        headers: { 'Accept': 'application/json' }
+      });
+      const data = await response.json();
+      return groupMembershipsByCategory(data.results.bindings); // ✅ return result here
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
+  }
 
 function groupMembershipsByCategory(results) {
     const categoryMap = {

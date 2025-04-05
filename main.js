@@ -30,7 +30,8 @@ function renderChart() {
     .attr("fill", "#007BFF");
 }
 
-console.log(wdCategoryCounts());
+const grouped = await wdCategoryCounts("NGA");
+console.log(grouped);
 
 const deckgl = new DeckGL({
 // Positron (light)
