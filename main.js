@@ -1,6 +1,7 @@
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
 import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
+import { wdCategoryCounts } from './js/wdCategoryCount.js'; 
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -28,6 +29,8 @@ function renderChart() {
     .attr("y", (d, i) => i * barHeight)
     .attr("fill", "#007BFF");
 }
+
+console.log(wdCategoryCounts());
 
 const deckgl = new DeckGL({
 // Positron (light)
