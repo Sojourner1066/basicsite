@@ -1,6 +1,6 @@
 export async function wdCategoryCounts(iso3 = "NGA") {
     const query = `SELECT ?country ?countryLabel ?membership ?membershipLabel ?MembershipType ?MembershipTypeLabel WHERE {
-                    ?country wdt:P298 "NGA".  # ISO 3166-1 alpha-3 code for Nigeria
+                    ?country wdt:P298 "${iso3}".  # ISO 3166-1 alpha-3 code for Nigeria
                     ?country wdt:P463 ?membership.  # Get memberships
                     OPTIONAL {
                         ?membership wdt:P31 ?MembershipType.  # Rename instanceOf to MembershipType
@@ -16,6 +16,7 @@ export async function wdCategoryCounts(iso3 = "NGA") {
         headers: { 'Accept': 'application/json' }
       });
       const data = await response.json();
+      console.log(data.results.bindings);
       return getUniqueMembershipTypes(data.results.bindings); // ✅ return result here
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -31,6 +32,7 @@ export async function wdCategoryCounts(iso3 = "NGA") {
         types.add(entry.MembershipTypeLabel);
       }
     });
+    console.log("types", types);
     const categories = countCategoriesFromIDs(Array.from(types).sort())
     return categories;
   }
