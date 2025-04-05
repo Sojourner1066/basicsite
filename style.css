@@ -1,0 +1,52 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+  }
+  
+  .deck-tooltip {
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 6px !important;
+    margin: 8px;
+    max-width: 300px;
+    font-size: 10px;
+  }
+  
+  #controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+  }
+  
+  #controls button {
+    padding: 10px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+  }
+  
+  #controls button:hover {
+    background-color: #0056b3;
+  }
+  
+  #hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    font-family: sans-serif;
+    z-index: 1000;
+  }

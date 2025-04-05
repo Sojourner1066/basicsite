@@ -6,48 +6,8 @@
     <script src="https://unpkg.com/deck.gl@^9.0.0/dist.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src='https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.js'></script>
-
     <link href='https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.css' rel='stylesheet' />
-
-    <style type="text/css">
-      body {
-        width: 100vw;
-        height: 100vh;
-        margin: 0;
-        overflow: hidden;
-      }
-      .deck-tooltip {
-        font-family: Helvetica, Arial, sans-serif;
-        padding: 6px !important;
-        margin: 8px;
-        max-width: 300px;
-        font-size: 10px;
-      }
-      #controls {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1000;
-        display: flex;
-        gap: 10px;
-      }
-
-      #controls button {
-        padding: 10px 14px;
-        font-size: 14px;
-        border: none;
-        border-radius: 8px;
-        background-color: #007BFF;
-        color: white;
-        cursor: pointer;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        transition: background-color 0.3s ease;
-      }
-
-      #controls button:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
@@ -56,7 +16,7 @@
       <button data-filter="africa">Only Africa</button>
       <button data-filter="europe">Only Europe</button>
     </div>
-  
+    <div id="hint">Hold Shift to rotate and pitch map</div>
     <script type="module" src="main.js"></script>
   </body>
 </html>
