@@ -28,8 +28,8 @@ export async function wdCategoryCounts(iso3 = "NGA") {
     const types = new Set();
   
     data.forEach(entry => {
-      if (entry.MembershipTypeLabel) {
-        types.add(entry.MembershipTypeLabel);
+      if (entry.MembershipType) {
+        types.add(entry.MembershipType.value.replace("http://www.wikidata.org/entity/", ""));
       }
     });
     console.log("types", types);
