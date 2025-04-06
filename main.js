@@ -3,6 +3,7 @@ import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
 import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
 import { wdCategoryCounts } from './js/wdCategoryCount.js';
 import { drawBarChart } from './js/d3_drawBarChart.js';
+import { drawCircularBarChart } from './js/d3_drawBarChart.js';
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
