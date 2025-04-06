@@ -4,12 +4,15 @@ export function drawBarChart(data, selector) {
   // 🧹 Clear previous content
   container.selectAll("*").remove();
 
-  // Create an <svg> inside the container
+  // Dimensions
   const width = 800;
   const height = 500;
+
+  // Create an SVG inside the container
   const svg = container.append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    .attr("style", "background-color: white; display: block; margin: 0 auto;");
 
   const margin = { top: 40, right: 30, bottom: 100, left: 50 };
   const chartWidth = width - margin.left - margin.right;
