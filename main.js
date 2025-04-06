@@ -93,7 +93,8 @@ async function renderLayers(data, selectedFeature) {
   });
   deckgl.setProps({ layers: [countyLayer, arcLayer] });
   const CategoryCounts = await wdCategoryCounts("NGA");
-  drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
+  // drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
+  drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
 }
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())

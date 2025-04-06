@@ -57,3 +57,71 @@ export function drawBarChart(data, selector) {
   chart.append("g")
     .call(d3.axisLeft(y));
 }
+
+
+export function drawCircularBarChart(data, selector) {
+  const container = d3.select(selector);
+  container.selectAll("*").remove();
+
+  const width = 600;
+  const height = 600;
+  const innerRadius = 100;
+  const outerRadius = Math.min(width, height) / 2 - 40;
+
+  const svg = container.append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .style("width", "100%")
+    .style("max-width", `${width}px`)
+    .style("height", "auto")
+    .style("background-color", "white")
+    .style("display", "block")
+    .style("margin", "0 auto")
+    .append("g")
+    .attr("transform", `translate(${width / 2},${height / 2})`);
+
+  const x = d3.scaleBand()
+    .domain(data.map(d => d.category))
+    .range([0, 2 * Math.PI]);
+
+  const y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([innerRadius, outerRadius]);
+
+  svg.append("g")
+    .selectAll("path")
+    .data(data)
+    .join("path")
+    .attr("fill", "#69b3a2")
+    .attr("d", d3.arc()
+      .innerRadius(innerRadius)
+      .outerRadius(d => y(d.value))
+      .startAngle(d => x(d.category))
+      .endAngle(d => x(d.category) + x.bandwidth())
+      .padAngle(0.01)
+      .padRadius(innerRadius)
+    );
+
+  // Add labels
+  svg.append("g")
+    .selectAll("g")
+    .data(data)
+    .join("g")
+    .attr("text-anchor", d => {
+      const angle = x(d.category) + x.bandwidth() / 2;
+      return (angle > Math.PI && angle < 2 * Math.PI) ? "end" : "start";
+    })
+    .attr("transform", d => {
+      const angle = x(d.category) + x.bandwidth() / 2 - Math.PI / 2;
+      const r = outerRadius + 10;
+      return `rotate(${(angle * 180 / Math.PI)})translate(${r},0)`;
+    })
+    .append("text")
+    .text(d => d.category)
+    .attr("transform", d => {
+      const angle = x(d.category) + x.bandwidth() / 2;
+      return (angle > Math.PI && angle < 2 * Math.PI) ? "rotate(180)" : null;
+    })
+    .style("font-size", "11px")
+    .attr("alignment-baseline", "middle");
+}
