@@ -16,7 +16,7 @@ export async function wdCategoryCounts(iso3 = "NGA") {
         headers: { 'Accept': 'application/json' }
       });
       const data = await response.json();
-      console.log(data.results.bindings);
+    //   console.log(data.results.bindings);
       return getUniqueMembershipTypes(data.results.bindings); // ✅ return result here
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -32,7 +32,7 @@ export async function wdCategoryCounts(iso3 = "NGA") {
         types.add(entry.MembershipType.value.replace("http://www.wikidata.org/entity/", ""));
       }
     });
-    console.log("types", types);
+    // console.log("types", types);
     const categories = countCategoriesFromIDs(Array.from(types).sort())
     return categories;
   }

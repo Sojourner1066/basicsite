@@ -7,9 +7,11 @@ import { drawCircularBarChart } from './js/d3_drawBarChart.js';
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+let selectedCountryISO = "NGA"; // default to Nigeria
 
-const CategoryCounts = await wdCategoryCounts("NGA");
-drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
+
+// const CategoryCounts = await wdCategoryCounts("NGA");
+// drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
 
 const deckgl = new DeckGL({
 // Positron (light)
@@ -72,28 +74,40 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
   }
 
 async function renderLayers(data, selectedFeature) {
-  selectedFeature = selectedFeature || data.features.find(f => f.properties.name === 'Nigeria');
-  console.log(selectedFeature.properties.adm0_iso);
+  if (selectedFeature) {
+    selectedCountryISO = selectedFeature.properties.adm0_iso;
+  } else {
+    selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
+  }
+  // selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
+  // console.log(selectedFeature.properties.adm0_iso);
   const membershipJSON = await wdGetAllMembershipsbyISO(selectedFeature.properties.adm0_iso);
   const targetIsoCodes = membershipJSON.results.bindings.map(d => d.targetCode.value);
   //getRandomISO3Codes(8);
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
 
-  const countyLayer = new GeoJsonLayer({
-    id: 'geojson',
-    data,
-    stroked: true,
-    filled: true,
-    autoHighlight: true,
-    pickable: true,
-    highlightColor: [158, 154, 200, 255],
-    getFillColor: () => [203, 201, 226, 255],
-    getLineColor: () => [158, 154, 200, 255],
-    lineWidthMinPixels: 1,
-    onClick: info => renderLayers(data, info.object)
-  });
+const countyLayer = new GeoJsonLayer({
+  id: 'geojson',
+  data,
+  stroked: true,
+  filled: true,
+  autoHighlight: true,
+  pickable: true,
+  highlightColor: [158, 154, 200, 255],
+  getFillColor: f => {
+    return f.properties.adm0_iso === selectedCountryISO
+      ? [158, 154, 200, 255]
+      : [203, 201, 226, 255];
+  },
+  updateTriggers: {
+    getFillColor: [selectedCountryISO]  // 👈 this line is critical
+  },
+  getLineColor: () => [158, 154, 200, 255],
+  lineWidthMinPixels: 1,
+  onClick: info => renderLayers(data, info.object)
+});
   deckgl.setProps({ layers: [countyLayer, arcLayer] });
-  const CategoryCounts = await wdCategoryCounts("NGA");
+  const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
   // drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
   drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
 }

@@ -22,8 +22,8 @@ export function drawBarChart(data, selector) {
     .style("margin", "0 auto");
   // Set the dimensions of the chart
     const margin = { top: 40, right: 30, bottom: 100, left: 50 };
-    const chartWidth = 500 - margin.left - margin.right;
-    const chartHeight = 800 - margin.top - margin.bottom;
+    const chartWidth = height - margin.left - margin.right;
+    const chartHeight = width - margin.top - margin.bottom;
 
   const x = d3.scaleBand()
     .domain(data.map(d => d.category))
@@ -90,19 +90,23 @@ export function drawCircularBarChart(data, selector) {
     .domain([0, d3.max(data, d => d.value)])
     .range([innerRadius, outerRadius]);
 
+    const color = d3.scaleOrdinal()
+    .domain(data.map(d => d.category))
+    .range(d3.schemeSet2);  // use any d3 color scheme you like
+  
   svg.append("g")
     .selectAll("path")
     .data(data)
     .join("path")
-    .attr("fill", "#69b3a2")
-    .attr("d", d3.arc()
-      .innerRadius(innerRadius)
-      .outerRadius(d => y(d.value))
-      .startAngle(d => x(d.category))
-      .endAngle(d => x(d.category) + x.bandwidth())
-      .padAngle(0.01)
-      .padRadius(innerRadius)
-    );
+      .attr("fill", d => color(d.category))
+      .attr("d", d3.arc()
+        .innerRadius(innerRadius)
+        .outerRadius(d => y(d.value))
+        .startAngle(d => x(d.category))
+        .endAngle(d => x(d.category) + x.bandwidth())
+        .padAngle(0.01)
+        .padRadius(innerRadius)
+      );
 
   // Add labels
   svg.append("g")
@@ -113,10 +117,15 @@ export function drawCircularBarChart(data, selector) {
       const angle = x(d.category) + x.bandwidth() / 2;
       return (angle > Math.PI && angle < 2 * Math.PI) ? "end" : "start";
     })
+    // .attr("transform", d => {
+    //   const angle = x(d.category) + x.bandwidth() / 2 - Math.PI / 2;
+    //   const r = outerRadius + 10;
+    //   return `rotate(${(angle * 180 / Math.PI)})translate(${r},0)`;
+    // })
     .attr("transform", d => {
       const angle = x(d.category) + x.bandwidth() / 2 - Math.PI / 2;
-      const r = outerRadius + 10;
-      return `rotate(${(angle * 180 / Math.PI)})translate(${r},0)`;
+      const radius = y(d.value) + 10; // move label just beyond the bar
+      return `rotate(${(angle * 180 / Math.PI)})translate(${radius},0)`;
     })
     .append("text")
     .text(d => d.category)
@@ -124,6 +133,13 @@ export function drawCircularBarChart(data, selector) {
       const angle = x(d.category) + x.bandwidth() / 2;
       return (angle > Math.PI && angle < 2 * Math.PI) ? "rotate(180)" : null;
     })
-    .style("font-size", "11px")
+    .style("font-size", "16px")
     .attr("alignment-baseline", "middle");
+
+    svg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", -outerRadius - 10) // position above the top of the chart
+      .style("font-size", "18px")
+      .style("font-weight", "bold")
+      .text("International Organization Types");
 }
