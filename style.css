@@ -64,3 +64,10 @@ body {
     z-index: 1000;
     font-family: sans-serif;
   }
+
+  #chart-container {
+    padding: 1rem;
+    overflow-x: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+  }

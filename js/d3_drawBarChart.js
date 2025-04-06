@@ -10,13 +10,18 @@ export function drawBarChart(data, selector) {
 
   // Create an SVG inside the container
   const svg = container.append("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("style", "background-color: white; display: block; margin: 0 auto;");
-
-  const margin = { top: 40, right: 30, bottom: 100, left: 50 };
-  const chartWidth = width - margin.left - margin.right;
-  const chartHeight = height - margin.top - margin.bottom;
+    .attr("viewBox", `0 0 800 500`)
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .style("width", "100%")
+    .style("max-width", "800px")
+    .style("height", "auto")
+    .style("background-color", "white")
+    .style("display", "block")
+    .style("margin", "0 auto");
+  // Set the dimensions of the chart
+    const margin = { top: 40, right: 30, bottom: 100, left: 50 };
+    const chartWidth = 500 - margin.left - margin.right;
+    const chartHeight = 800 - margin.top - margin.bottom;
 
   const x = d3.scaleBand()
     .domain(data.map(d => d.category))
