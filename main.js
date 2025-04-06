@@ -1,37 +1,14 @@
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
 import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
-import { wdCategoryCounts } from './js/wdCategoryCount.js'; 
+import { wdCategoryCounts } from './js/wdCategoryCount.js';
+import { drawBarChart } from './chart/d3_drawBarChart.js';
 
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-function renderChart() {
-  const data = [4, 8, 15, 16, 23, 42];
 
-  const width = 280;
-  const height = 180;
-  const barHeight = 20;
-
-  const svg = d3.select("#chart-container")
-    .append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  const x = d3.scaleLinear()
-    .domain([0, d3.max(data)])
-    .range([0, width]);
-
-  svg.selectAll("rect")
-    .data(data)
-    .enter().append("rect")
-    .attr("width", d => x(d))
-    .attr("height", barHeight - 1)
-    .attr("y", (d, i) => i * barHeight)
-    .attr("fill", "#007BFF");
-}
-
-const grouped = await wdCategoryCounts("NGA");
-console.log(grouped);
+const CategoryCounts = await wdCategoryCounts("NGA");
+drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
 
 const deckgl = new DeckGL({
 // Positron (light)
@@ -115,7 +92,8 @@ async function renderLayers(data, selectedFeature) {
     onClick: info => renderLayers(data, info.object)
   });
   deckgl.setProps({ layers: [countyLayer, arcLayer] });
-  renderChart();
+  const CategoryCounts = await wdCategoryCounts("NGA");
+  drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
 }
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
