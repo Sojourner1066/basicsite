@@ -80,7 +80,7 @@ async function renderLayers(data, selectedFeature) {
     selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
   }
   // selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
-  // console.log(selectedFeature.properties.adm0_iso);
+  console.log(selectedFeature.properties.adm0_iso);
   const membershipJSON = await wdGetAllMembershipsbyISO(selectedFeature.properties.adm0_iso);
   const targetIsoCodes = membershipJSON.results.bindings.map(d => d.targetCode.value);
   //getRandomISO3Codes(8);
