@@ -131,10 +131,19 @@ async function renderLayers(data, selectedFeature) {
   // const selectedData = filterByIsoCodes(CountryStats, ["USA", "GBR", "NGA"]);
   const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;
 
-  const populationData = selectedData.map(d => ({
-    category: d.countryLabel.value,
-    value: d.population?.value ? +d.population.value : 0
-  }));
+  const MAX_LABEL_LENGTH = 15;
+
+  const populationData = selectedData
+    .map(d => ({
+      fullName: d.countryLabel.value,
+      category: d.countryLabel.value.length > MAX_LABEL_LENGTH
+        ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
+        : d.countryLabel.value,
+      value: d.population?.value ? +d.population.value : 0
+    }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 10);
+
   drawMiniHorizontalBarChart(populationData, "#pop-chart-container");
 
 

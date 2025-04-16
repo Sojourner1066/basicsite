@@ -1,8 +1,67 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+// export function drawMiniHorizontalBarChart(data, selector) {
+//   const container = d3.select(selector);
+//   container.selectAll("*").remove();
+
+//   const margin = { top: 10, right: 10, bottom: 20, left: 100 };
+//   const width = 300 - margin.left - margin.right;
+//   const height = 200 - margin.top - margin.bottom;
+
+//   const svg = container.append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//     .style("background-color", "white")
+//     .style("border-radius", "8px")
+//     .append("g")
+//     .attr("transform", `translate(${margin.left},${margin.top})`);
+
+//   const x = d3.scaleLinear()
+//     .domain([0, d3.max(data, d => d.value)])
+//     .range([0, width]);
+
+//   const y = d3.scaleBand()
+//     .domain(data.map(d => d.category))
+//     .range([0, height])
+//     .padding(0.1);
+
+//   svg.append("g")
+//     .call(d3.axisLeft(y));
+
+//   svg.append("g")
+//     .attr("transform", `translate(0,${height})`)
+//     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
+
+//   svg.selectAll("rect")
+//     .data(data)
+//     .enter()
+//     .append("rect")
+//     .attr("y", d => y(d.category))
+//     .attr("height", y.bandwidth())
+//     .attr("x", 0)
+//     .attr("width", d => x(d.value))
+//     .attr("fill", "#4682b4");
+// }
+
 export function drawMiniHorizontalBarChart(data, selector) {
   const container = d3.select(selector);
   container.selectAll("*").remove();
+
+  // Create or select tooltip div
+  let tooltip = d3.select("#tooltip");
+  if (tooltip.empty()) {
+    tooltip = d3.select("body").append("div")
+      .attr("id", "tooltip")
+      .style("position", "absolute")
+      .style("padding", "6px 10px")
+      .style("background", "white")
+      .style("border", "1px solid #ccc")
+      .style("border-radius", "4px")
+      .style("pointer-events", "none")
+      .style("font-size", "12px")
+      .style("display", "none")
+      .style("z-index", "3000");
+  }
 
   const margin = { top: 10, right: 10, bottom: 20, left: 100 };
   const width = 300 - margin.left - margin.right;
@@ -25,9 +84,7 @@ export function drawMiniHorizontalBarChart(data, selector) {
     .range([0, height])
     .padding(0.1);
 
-  svg.append("g")
-    .call(d3.axisLeft(y));
-
+  svg.append("g").call(d3.axisLeft(y));
   svg.append("g")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
@@ -40,67 +97,20 @@ export function drawMiniHorizontalBarChart(data, selector) {
     .attr("height", y.bandwidth())
     .attr("x", 0)
     .attr("width", d => x(d.value))
-    .attr("fill", "#4682b4");
-}
-
-export function drawBarChart(data, selector) {
-  const container = d3.select(selector);
-
-  // 🧹 Clear previous content
-  container.selectAll("*").remove();
-
-  // Dimensions
-  const width = 800;
-  const height = 500;
-
-  // Create an SVG inside the container
-  const svg = container.append("svg")
-    .attr("viewBox", `0 0 800 500`)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .style("width", "100%")
-    .style("max-width", "800px")
-    .style("height", "auto")
-    .style("background-color", "white")
-    .style("display", "block")
-    .style("margin", "0 auto");
-  // Set the dimensions of the chart
-    const margin = { top: 40, right: 30, bottom: 100, left: 50 };
-    const chartWidth = height - margin.left - margin.right;
-    const chartHeight = width - margin.top - margin.bottom;
-
-  const x = d3.scaleBand()
-    .domain(data.map(d => d.category))
-    .range([0, chartWidth])
-    .padding(0.2);
-
-  const y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.value)])
-    .nice()
-    .range([chartHeight, 0]);
-
-  const chart = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-  chart.append("g")
-    .selectAll("rect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", d => x(d.category))
-    .attr("y", d => y(d.value))
-    .attr("height", d => chartHeight - y(d.value))
-    .attr("width", x.bandwidth())
-    .attr("fill", "#69b3a2");
-
-  chart.append("g")
-    .attr("transform", `translate(0,${chartHeight})`)
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    .attr("transform", "rotate(-40)")
-    .style("text-anchor", "end");
-
-  chart.append("g")
-    .call(d3.axisLeft(y));
+    .attr("fill", "#4682b4")
+    .on("mouseover", (event, d) => {
+      tooltip
+        .style("display", "block")
+        .html(`<strong>${d.fullName}</strong><br>Population: ${d.value.toLocaleString()}`);
+    })
+    .on("mousemove", (event) => {
+      tooltip
+        .style("top", (event.pageY - 28) + "px")
+        .style("left", (event.pageX + 10) + "px");
+    })
+    .on("mouseout", () => {
+      tooltip.style("display", "none");
+    });
 }
 
 
