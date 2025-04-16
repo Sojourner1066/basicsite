@@ -101,7 +101,7 @@ export function drawMiniHorizontalBarChart(data, selector) {
     .on("mouseover", (event, d) => {
       tooltip
         .style("display", "block")
-        .html(`<strong>${d.fullName}</strong><br>Population: ${d.value.toLocaleString()}`);
+        .html(`<strong>${d.fullName}</strong><br>${d.dataType}: ${d.value.toLocaleString()}`);
     })
     .on("mousemove", (event) => {
       tooltip
@@ -111,6 +111,14 @@ export function drawMiniHorizontalBarChart(data, selector) {
     .on("mouseout", () => {
       tooltip.style("display", "none");
     });
+
+    svg.append("text")
+      .attr("x", (width + margin.left + margin.right) / 2)
+      .attr("y", -margin.top / 2)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .style("font-weight", "bold")
+      .text(`${dataType} by Country (Top 10)`); 
 }
 
 
@@ -194,5 +202,5 @@ export function drawCircularBarChart(data, selector) {
       .attr("y", -outerRadius - 10) // position above the top of the chart
       .style("font-size", "18px")
       .style("font-weight", "bold")
-      .text("International Organization Types");
-}
+      .text("International Organization Types")
+};

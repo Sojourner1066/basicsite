@@ -130,12 +130,14 @@ async function renderLayers(data, selectedFeature) {
   
   // const selectedData = filterByIsoCodes(CountryStats, ["USA", "GBR", "NGA"]);
   const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;
+  console.log("selectedData", selectedData);
 
   const MAX_LABEL_LENGTH = 15;
 
   const populationData = selectedData
     .map(d => ({
       fullName: d.countryLabel.value,
+      dataType: "Population",
       category: d.countryLabel.value.length > MAX_LABEL_LENGTH
         ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
         : d.countryLabel.value,
@@ -145,6 +147,23 @@ async function renderLayers(data, selectedFeature) {
     .slice(0, 10);
 
   drawMiniHorizontalBarChart(populationData, "#pop-chart-container");
+
+  const gdpData = selectedData
+  .filter(d => d.gdp && !isNaN(+d.gdp.value)) // ensure GDP exists and is numeric
+  .map(d => ({
+    fullName: d.countryLabel.value,
+    dataType: "GDP",
+    category: d.countryLabel.value.length > MAX_LABEL_LENGTH
+      ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
+      : d.countryLabel.value,
+    value: +d.gdp.value
+  }))
+  .sort((a, b) => b.value - a.value)
+  .slice(0, 10);
+
+  drawMiniHorizontalBarChart(gdpData, "#gdp-chart-container");
+
+  
 
 
   // selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);

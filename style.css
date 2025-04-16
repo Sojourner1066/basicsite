@@ -28,9 +28,11 @@ body {
   max-width: 400px;
 }
 
-#controls,
+
+#control,
 #chart-container,
-#pop-chart-container {
+#pop-chart-container,
+#gdp-chart-container {
   background: white;
   border-radius: 10px;
   padding: 1rem;
@@ -41,10 +43,16 @@ body {
 #hint {
   position: absolute;
   bottom: 1rem;
-  left: 1rem;
-  font-size: 0.85rem;
-  color: #555;
+  right: 1rem;
+  font-size: 0.9rem;
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-weight: 500;
   z-index: 10;
+  transition: background 0.3s ease;
 }
 
 #participant-value {
