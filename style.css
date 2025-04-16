@@ -1,79 +1,112 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
 body {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-  }
-  
-  .deck-tooltip {
-    font-family: Helvetica, Arial, sans-serif;
-    padding: 6px !important;
-    margin: 8px;
-    max-width: 300px;
-    font-size: 10px;
-  }
-  
-  #controls {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 1000;
-    display: flex;
-    gap: 10px;
-  }
-  
-  #controls button {
-    padding: 10px 14px;
-    font-size: 14px;
-    border: none;
-    border-radius: 8px;
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    transition: background-color 0.3s ease;
-  }
-  
-  #controls button:hover {
-    background-color: #0056b3;
-  }
-  
-  #hint {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 8px 12px;
-    font-size: 12px;
-    border-radius: 6px;
-    font-family: sans-serif;
-    z-index: 1000;
-  }
+  position: relative;
+}
 
-  #chart-container {
-    position: absolute;
-    top: 30px;
-    right: 10px;
-    width: 400px;
-    /* height: 300px; */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    z-index: 2000; /* ⬅️ Key: higher than Deck.gl */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  }
+.deckgl-overlay, canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
 
-  #pop-chart-container {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: 300px;
-    height: 200px;
-    z-index: 999;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    padding: 5px;
-    border-radius: 6px;
-  }
+#ui-wrapper {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+#controls,
+#chart-container,
+#pop-chart-container {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+#hint {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  font-size: 0.85rem;
+  color: #555;
+  z-index: 10;
+}
+
+#participant-value {
+  display: inline-block;
+  min-width: 1.5em; /* enough for 'All', '150', etc. */
+  text-align: right;
+}
+
+#participant-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+#participant-control label {
+  flex-shrink: 0;
+}
+
+#participant-slider {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+#info-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.modal-box {
+  background: white;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  max-width: 480px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modal-box p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+#dismiss-btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #007aff;
+  color: white;
+  cursor: pointer;
+}
+
+#dismiss-btn:hover {
+  background-color: #005ecb;
+}

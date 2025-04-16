@@ -43,12 +43,12 @@ const deckgl = new DeckGL({
 // Dark Matter (no labels)
 // mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json',
 // Voyager (more detail)
-// mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
 // Voyager (no labels)
-mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json',
+// mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json',
   initialViewState: {
-    longitude: 0,
-    latitude: 0,
+    longitude: -2.6753,
+    latitude: 18.0820,
     zoom: 3,
     maxZoom: 15,
     pitch: 30,
@@ -156,8 +156,8 @@ const countyLayer = new GeoJsonLayer({
   highlightColor: [158, 154, 200, 255],
   getFillColor: f => {
     return f.properties.adm0_iso === selectedCountryISO
-      ? [158, 154, 200, 255]
-      : [203, 201, 226, 255];
+      ? [158, 154, 200, 160]
+      : [203, 201, 226, 120];
   },
   updateTriggers: {
     getFillColor: [selectedCountryISO] 
@@ -181,10 +181,29 @@ const countyLayer = new GeoJsonLayer({
   // drawMiniHorizontalBarChart(populationData, "#pop-chart-container");
 }
 
+// fetch('data/WorldPoly_with_centroids.geojson')
+//   .then(res => res.json())
+//   // .then(data => renderLayers(data));
+//   .then(data => {
+//     currentGeoData = data;
+//     renderLayers(data);
+//   });
+
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
-  // .then(data => renderLayers(data));
   .then(data => {
     currentGeoData = data;
     renderLayers(data);
+
+    // Modal dismiss logic moved here to ensure DOM is ready
+    const dismissBtn = document.getElementById('dismiss-btn');
+    const modal = document.getElementById('info-modal');
+
+    if (dismissBtn && modal) {
+      dismissBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    } else {
+      console.warn("Modal or dismiss button not found.");
+    }
   });
