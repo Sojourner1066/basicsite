@@ -5,7 +5,7 @@ export async function wdGetAllMembershipsbyISO(iso3="NGA") {
 
         SELECT DISTINCT ?targetCode WHERE {
         # Get the source country by its ISO code
-        ?sourceCountry wdt:P298 "NGA".
+        ?sourceCountry wdt:P298 "${iso3}".
         ?sourceCountry p:P463 ?sourceStatement.
         ?sourceStatement ps:P463 ?membership.
         FILTER NOT EXISTS { ?sourceStatement pq:P582 ?endTime }

@@ -1,5 +1,48 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+export function drawMiniHorizontalBarChart(data, selector) {
+  const container = d3.select(selector);
+  container.selectAll("*").remove();
+
+  const margin = { top: 10, right: 10, bottom: 20, left: 100 };
+  const width = 300 - margin.left - margin.right;
+  const height = 200 - margin.top - margin.bottom;
+
+  const svg = container.append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .style("background-color", "white")
+    .style("border-radius", "8px")
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+  const x = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([0, width]);
+
+  const y = d3.scaleBand()
+    .domain(data.map(d => d.category))
+    .range([0, height])
+    .padding(0.1);
+
+  svg.append("g")
+    .call(d3.axisLeft(y));
+
+  svg.append("g")
+    .attr("transform", `translate(0,${height})`)
+    .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
+
+  svg.selectAll("rect")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("y", d => y(d.category))
+    .attr("height", y.bandwidth())
+    .attr("x", 0)
+    .attr("width", d => x(d.value))
+    .attr("fill", "#4682b4");
+}
+
 export function drawBarChart(data, selector) {
   const container = d3.select(selector);
 

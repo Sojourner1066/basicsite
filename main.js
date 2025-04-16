@@ -2,13 +2,33 @@ const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
 import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
 import { wdCategoryCounts } from './js/wdCategoryCount.js';
-import { drawBarChart } from './js/d3_drawBarChart.js';
-import { drawCircularBarChart } from './js/d3_drawBarChart.js';
+import { drawCircularBarChart } from './js/d3_drawCharts.js';
+import { drawMiniHorizontalBarChart } from './js/d3_drawCharts.js';
+import { wdGetAllStatsByISO } from './js/wdGetAllStatsByISO.js';
+import { getSmallTreatyMembersGrouped, getUniqueMemberCountries } from './js/wdTreatyMembership.js';
 
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 let selectedCountryISO = "NGA"; // default to Nigeria
+let maxParticipants = 130; // max number of participants in a treaty
 
+// this loads all data needed for creating charts 
+let CountryStats = await wdGetAllStatsByISO();
+
+// this filters the ContryStats data to only include the countries with the iso codes in the isoCodes array
+function filterByIsoCodes(data, isoCodes) {
+  const isoSet = new Set(isoCodes);
+  return data.results.bindings.filter(entry => isoSet.has(entry.isoCode.value));
+}
+
+// getSmallTreatyMembersGrouped("USA", 130).then(result => {
+//   console.log("Grouped Treaty Members:", result);
+// });
+
+const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
+console.log("Grouped Treaty Members:", treatyCountryGroups);
+
+const relatedCountries = getUniqueMemberCountries(treatyCountryGroups, selectedCountryISO);
+console.log("Unique Related Countries:", relatedCountries);
 
 // const CategoryCounts = await wdCategoryCounts("NGA");
 // drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
@@ -80,8 +100,9 @@ async function renderLayers(data, selectedFeature) {
     selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
   }
   // selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
-  console.log(selectedFeature.properties.adm0_iso);
+  // console.log(selectedFeature.properties.adm0_iso);
   const membershipJSON = await wdGetAllMembershipsbyISO(selectedFeature.properties.adm0_iso);
+  // console.log(membershipJSON);
   const targetIsoCodes = membershipJSON.results.bindings.map(d => d.targetCode.value);
   //getRandomISO3Codes(8);
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
@@ -110,7 +131,18 @@ const countyLayer = new GeoJsonLayer({
   const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
   // drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
   drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
+
+
+  const selectedData = filterByIsoCodes(CountryStats, ["USA", "GBR", "NGA"]);
+
+  const populationData = selectedData.map(d => ({
+    category: d.countryLabel.value,
+    value: +d.population.value
+  }));
+
+  drawMiniHorizontalBarChart(populationData, "#pop-chart-container");
 }
+
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
   .then(data => renderLayers(data));
