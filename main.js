@@ -9,6 +9,9 @@ import { getSmallTreatyMembersGrouped, getUniqueMemberCountries } from './js/wdT
 
 
 let selectedCountryISO = "NGA"; // default to Nigeria
+let currentGeoData; // to cache GeoJSON between slider changes
+const presets = [5, 10, 30, 50, 70, 100, 150, Infinity];
+let maxParticipants = presets[2]; // start at 30
 
 // this loads all data needed for creating charts 
 let CountryStats = await wdGetAllStatsByISO();
@@ -57,6 +60,19 @@ mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json
   getTooltip: ({ object }) => object?.properties?.name
 });
 
+const slider = document.getElementById("participant-slider");
+const valueLabel = document.getElementById("participant-value");
+
+slider.addEventListener("input", () => {
+  const selected = presets[parseInt(slider.value)];
+  maxParticipants = selected;
+  valueLabel.textContent = selected === Infinity ? "All" : selected;
+
+  if (currentGeoData) {
+    renderLayers(currentGeoData, null);
+  }
+});
+
 function getArcLayer(data, selectedFeature, targetIsoCodes) {
     const { centroid } = selectedFeature.properties;
   
@@ -98,7 +114,7 @@ async function renderLayers(data, selectedFeature) {
   }
   
   // this the default number of participants in a treaty
-  const maxParticipants = 40; // max number of participants in a treaty
+  // const maxParticipants = 40; // max number of participants in a treaty
 
   const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
   console.log("treatyCountryGroups", treatyCountryGroups);
@@ -167,4 +183,8 @@ const countyLayer = new GeoJsonLayer({
 
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
-  .then(data => renderLayers(data));
+  // .then(data => renderLayers(data));
+  .then(data => {
+    currentGeoData = data;
+    renderLayers(data);
+  });
