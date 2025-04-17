@@ -3,8 +3,8 @@ const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 // import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
 
 import { wdCategoryCounts } from './js/wdCategoryCount.js';
-
-import { drawCircularBarChart } from './js/d3_drawCharts.js';
+import { createSpectralDonutChart } from './js/d3_drawCharts.js';
+// import { drawDonutChart } from './js/d3_drawCharts.js';
 import { drawMiniHorizontalBarChart } from './js/d3_drawCharts.js';
 import { wdGetAllStatsByISO } from './js/wdGetAllStatsByISO.js';
 import { getSmallTreatyMembersGrouped, getUniqueMemberCountries } from './js/wdTreatyMembership.js';
@@ -132,12 +132,26 @@ async function renderLayers(data, selectedFeature) {
   //   Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })),
   //   "#chart-container"
   // );
+
+
   const CategoryCounts = await wdCategoryCounts(selectedCountryISO, treatyCountryGroups);
-  const donutData = Object.entries(CategoryCounts).map(([category, value]) => ({
-    category,
+  const donutData = Object.entries(CategoryCounts).map(([name, value]) => ({
+    name,
     value
   }));
-  drawDonutChart(donutData, "#chart-container", "Treaty Membership Types");
+  
+  const donutContainer = document.querySelector("#chart-container");
+  donutContainer.innerHTML = ""; // clear any previous chart
+  const chart = createSpectralDonutChart(donutData, 420); // or any width you want
+  donutContainer.appendChild(chart);
+
+
+  // const CategoryCounts = await wdCategoryCounts(selectedCountryISO, treatyCountryGroups);
+  // const donutData = Object.entries(CategoryCounts).map(([category, value]) => ({
+  //   category,
+  //   value
+  // }));
+  // drawDonutChart(donutData, "#chart-container", "Treaty Membership Types");
   
   const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;
 

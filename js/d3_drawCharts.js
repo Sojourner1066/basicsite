@@ -172,67 +172,57 @@ export function drawCircularBarChart(data, selector) {
       .text("International Organization Types")
 };
 
-export function drawDonutChart(data, selector, title = "") {
-  const container = d3.select(selector);
-  container.selectAll("*").remove();
-
-  const width = 600;
-  const height = 600;
-  const radius = Math.min(width, height) / 2 - 40;
-
-  const color = d => categoryColorMap[d] || "#ccc"; // fallback if unknown
-
-  const pie = d3.pie()
-    .value(d => d.value)
-    .sort(null);
+export function createSpectralDonutChart(data, width = 420) {
+  const height = Math.min(width, 500);
+  const radius = Math.min(width, height) / 2;
 
   const arc = d3.arc()
-    .innerRadius(radius * 0.5)
-    .outerRadius(radius);
+    .innerRadius(radius * 0.67)
+    .outerRadius(radius - 1);
 
-  const svg = container.append("svg")
-    .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .style("width", "100%")
-    .style("max-width", `${width}px`)
-    .style("height", "auto")
-    .style("display", "block")
-    .style("margin", "0 auto")
-    .append("g")
-    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+  const pie = d3.pie()
+    .padAngle(1 / radius)
+    .sort(null)
+    .value(d => d.value);
 
-  // Donut arcs
-  svg.selectAll("path")
+  const color = d3.scaleOrdinal()
+    .domain(data.map(d => d.name))
+    .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse());
+
+  const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [-width / 2, -height / 2, width, height])
+    .attr("style", "max-width: 100%; height: auto; display: block; margin: 0 auto;");
+
+  svg.append("g")
+    .selectAll("path")
     .data(pie(data))
     .join("path")
-    .attr("d", arc)
-    .attr("fill", d => color(d.data.category));
+      .attr("fill", d => color(d.data.name))
+      .attr("d", arc)
+    .append("title")
+      .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
 
-  // Chart title
-  if (title) {
-    svg.append("text")
-      .attr("text-anchor", "middle")
-      .attr("y", -radius - 20)
-      .style("font-size", "18px")
-      .style("font-weight", "bold")
-      .text(title);
-  }
+  svg.append("g")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 12)
+    .attr("text-anchor", "middle")
+    .selectAll("text")
+    .data(pie(data))
+    .join("text")
+      .attr("transform", d => `translate(${arc.centroid(d)})`)
+      .call(text => text.append("tspan")
+        .attr("y", "-0.4em")
+        .attr("font-weight", "bold")
+        .text(d => d.data.name))
+      .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+        .attr("x", 0)
+        .attr("y", "0.7em")
+        .attr("fill-opacity", 0.7)
+        .text(d => d.data.value.toLocaleString("en-US")));
 
-  // Legend
-  const legendContainer = container.append("div")
-    .attr("class", "donut-legend")
-    .style("display", "flex")
-    .style("justify-content", "center")
-    .style("flex-wrap", "wrap")
-    .style("margin-top", "12px");
-
-  data.forEach(d => {
-    legendContainer.append("div")
-      .style("display", "flex")
-      .style("align-items", "center")
-      .style("margin", "4px 10px")
-      .html(`<span style="display:inline-block;width:12px;height:12px;background:${color(d.category)};margin-right:6px;border-radius:2px;"></span>${d.category}`);
-  });
+  return svg.node();
 }
 
 const categoryColorMap = {
