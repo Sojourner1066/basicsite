@@ -51,6 +51,7 @@ const deckgl = new DeckGL({
 });
 
 const slider = document.getElementById("participant-slider");
+slider.value = "2"; // force it visually to match the intended value
 const valueLabel = document.getElementById("participant-value");
 
 slider.addEventListener("input", () => {
@@ -66,9 +67,9 @@ slider.addEventListener("input", () => {
 function getArcLayer(data, selectedFeature, targetIsoCodes) {
     const { centroid } = selectedFeature.properties;
   
-    // Lookup by adm0_a3
+    // Lookup by iso_a3
     const featureByIso = Object.fromEntries(
-      data.features.map(f => [f.properties.adm0_iso, f])
+      data.features.map(f => [f.properties.iso_a3, f])
     );
   
     // Build arcs to each target country
@@ -98,9 +99,10 @@ function getArcLayer(data, selectedFeature, targetIsoCodes) {
 
 async function renderLayers(data, selectedFeature) {
   if (selectedFeature) {
-    selectedCountryISO = selectedFeature.properties.adm0_iso;
+    selectedCountryISO = selectedFeature.properties.iso_a3;
+    console.log("Selected country ISO:", selectedCountryISO);
   } else {
-    selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
+    selectedFeature = data.features.find(f => f.properties.iso_a3 === selectedCountryISO);
   }
 
   const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
@@ -193,9 +195,9 @@ const countyLayer = new GeoJsonLayer({
   filled: true,
   autoHighlight: true,
   pickable: true,
-  highlightColor: [158, 154, 200, 255],
+  highlightColor: [158, 154, 200, 120],
   getFillColor: f => {
-    return f.properties.adm0_iso === selectedCountryISO
+    return f.properties.iso_a3 === selectedCountryISO
       ? [158, 154, 200, 160]
       : [203, 201, 226, 120];
   },
