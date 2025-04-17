@@ -73,7 +73,7 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .attr("height", y.bandwidth())
     .attr("x", 0)
     .attr("width", d => x(d.value))
-    .attr("fill", "#4682b4")
+    .attr("fill", d => d.highlight ? "#B9B6D1" : "#E1DEE7")
     .on("mouseover", (event, d) => {
       tooltip
         .style("display", "block")

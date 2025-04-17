@@ -154,8 +154,9 @@ async function renderLayers(data, selectedFeature) {
   //   value
   // }));
   // drawDonutChart(donutData, "#chart-container", "Treaty Membership Types");
-  
-  const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;
+  const chartDataIsoCodes = [...targetIsoCodes, selectedCountryISO];
+  const selectedData = filterByIsoCodes(CountryStats, chartDataIsoCodes);
+  console.log("selectedData", selectedData);
 
   const MAX_LABEL_LENGTH = 15;
 
@@ -165,7 +166,8 @@ async function renderLayers(data, selectedFeature) {
       category: d.countryLabel.value.length > MAX_LABEL_LENGTH
         ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
         : d.countryLabel.value,
-      value: d.population?.value ? +d.population.value : 0
+      value: d.population?.value ? +d.population.value : 0,
+      highlight: d.isoCode?.value === selectedCountryISO
     }))
     .sort((a, b) => b.value - a.value)
     .slice(0, 10);
@@ -179,7 +181,8 @@ async function renderLayers(data, selectedFeature) {
     category: d.countryLabel.value.length > MAX_LABEL_LENGTH
       ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
       : d.countryLabel.value,
-    value: +d.gdp.value
+    value: +d.gdp.value,
+    highlight: d.isoCode?.value === selectedCountryISO
   }))
   .sort((a, b) => b.value - a.value)
   .slice(0, 10);
