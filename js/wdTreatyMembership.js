@@ -22,7 +22,13 @@ async function getCountryMemberships(isoCode) {
   const response = await fetch(url);
   const data = await response.json();
 
-  return data.results.bindings.map(b => b.organization.value);
+  const countryMemebership = data.results.bindings.map(b => b.organization.value);
+  // const testing =  getUniqueMembershipTypes(countryMemebership);
+  // console.log("Membership Types: ", testing);
+  // console.log("Country Memberships: ", countryMemebership);
+  return countryMemebership;
+
+  // return data.results.bindings.map(b => b.organization.value);
 }
 
 // Filter local treaties by participant threshold
@@ -83,3 +89,4 @@ export function getUniqueMemberCountries(groupedResults, originalISO) {
 
   return Array.from(countrySet);
 }
+

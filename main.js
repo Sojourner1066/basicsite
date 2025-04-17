@@ -1,7 +1,9 @@
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
-import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
-import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
+// import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
+// import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
 import { wdCategoryCounts } from './js/wdCategoryCount.js';
+import { test } from './js/catagorizeCountTreaties.js';
+
 import { drawCircularBarChart } from './js/d3_drawCharts.js';
 import { drawMiniHorizontalBarChart } from './js/d3_drawCharts.js';
 import { wdGetAllStatsByISO } from './js/wdGetAllStatsByISO.js';
@@ -39,7 +41,7 @@ const deckgl = new DeckGL({
     longitude: -2.6753,
     latitude: 18.0820,
     zoom: 3,
-    maxZoom: 15,
+    maxZoom: 6,
     pitch: 30,
     bearing: 30
   },
@@ -102,6 +104,7 @@ async function renderLayers(data, selectedFeature) {
   }
 
   const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
+  // console.log(treatyCountryGroups);
 
   // Convert to array and sort by number of members (descending)
   const sortedTreaties = Object.entries(treatyCountryGroups)
@@ -111,22 +114,21 @@ async function renderLayers(data, selectedFeature) {
     }))
     .sort((a, b) => b.count - a.count);
 
-  // Log to console or inject into DOM
-  console.log("Treaties sorted by number of members:");
-  sortedTreaties.forEach(t => {
-    console.log(`${t.treaty}: ${t.count} members`);
-  });
+
   const container = document.getElementById("treaty-list");
-  container.innerHTML = sortedTreaties.map(t => `<div><strong>${t.treaty}</strong>: ${t.count} members</div>`).join('');
-  // console.log("treatyCountryGroups", treatyCountryGroups);
-  // console.log("ISO", selectedCountryISO);
-  // console.log("max", maxParticipants);
+  container.innerHTML = `
+  <h4 class="treaty-title">Treaties and Number of Members</h4>
+  ${sortedTreaties.map(t => `<div><strong>${t.treaty}</strong>: ${t.count}</div>`).join('')}
+  `;
+
+  // container.innerHTML = sortedTreaties.map(t => `<div><strong>${t.treaty}</strong>: ${t.count} members</div>`).join('');
+
 
   const targetIsoCodes = getUniqueMemberCountries(treatyCountryGroups, selectedCountryISO);
+  
 
-
-  const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
-  drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
+  // const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
+  // drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
   
   
   const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;

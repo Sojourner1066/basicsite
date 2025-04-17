@@ -57,6 +57,14 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
 
+  let displayLabel;
+
+  if (title.split(" ")[0] === "GDP") {
+    displayLabel = "GDP: $";
+  } else {
+    displayLabel = "Population: ";
+  }
+    
   chartGroup.selectAll("rect")
     .data(data)
     .enter()
@@ -69,7 +77,7 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .on("mouseover", (event, d) => {
       tooltip
         .style("display", "block")
-        .html(`<strong>${d.fullName}</strong><br>${title}: ${d.value.toLocaleString()}`);
+        .html(`<strong>${d.fullName}</strong><br>${displayLabel}${d.value.toLocaleString()}`);
     })
     .on("mousemove", (event) => {
       tooltip

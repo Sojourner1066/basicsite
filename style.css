@@ -133,4 +133,14 @@ body {
   z-index: 1000;
   overflow-y: auto;
   max-height: 80vh;
+  margin-bottom: 4px; /* or 6px for slightly more space */
+  line-height: 1.4;
+}
+.treaty-title {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
 }

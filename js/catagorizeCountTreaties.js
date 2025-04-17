@@ -1,30 +1,32 @@
-export async function wdCategoryCounts(iso3 = "NGA") {
-    const query = `SELECT ?country ?countryLabel ?membership ?membershipLabel ?MembershipType ?MembershipTypeLabel WHERE {
-                    ?country wdt:P298 "${iso3}".  # ISO 3166-1 alpha-3 code for Nigeria
-                    ?country wdt:P463 ?membership.  # Get memberships
-                    OPTIONAL {
-                        ?membership wdt:P31 ?MembershipType.  # Rename instanceOf to MembershipType
-                    }
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-                    }
-                    ORDER BY ?membershipLabel`;
-  
-    const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`;
-  
-    try {
-      const response = await fetch(url, {
-        headers: { 'Accept': 'application/json' }
-      });
-      const data = await response.json();
-    //   console.log(data.results.bindings);
-      return getUniqueMembershipTypes(data.results.bindings); // ✅ return result here
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      return null;
-    }
-  };
+// Query Wikidata for members of those treaties and return grouped by org
+export async function getWDidForCount(iso3) {
 
-function getUniqueMembershipTypes(data) {
+    const query = `
+      SELECT ?organizationLabel ?isoCode WHERE {
+        VALUES ?organization { ${iso3} }
+        ?country wdt:P463 ?organization;
+                 wdt:P31 wd:Q6256;
+                 wdt:P298 ?isoCode.
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+    `;
+    const url = 'https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(query);
+    const response = await fetch(url);
+    const data = await response.json();
+  
+    const grouped = {};
+    for (const d of data.results.bindings) {
+      const org = d.organizationLabel.value;
+      const iso = d.isoCode.value;
+      if (!grouped[org]) grouped[org] = [];
+      grouped[org].push(iso);
+    }
+    console.log("grouped", grouped);
+    return grouped;
+  }
+
+export function test(data) {
+
     const types = new Set();
   
     data.forEach(entry => {
@@ -32,21 +34,16 @@ function getUniqueMembershipTypes(data) {
         types.add(entry.MembershipType.value.replace("http://www.wikidata.org/entity/", ""));
       }
     });
-    // console.log("types", types);
-    const categories = countCategoriesFromIDs(Array.from(types).sort())
-    return categories;
-  }
-
-  export function countCategoriesFromIDs(wikidataIDs) {
+   
     const categoryCounts = {};
   
-    wikidataIDs.forEach(id => {
+    data.forEach(id => {
       const category = wikidataCategoryMap[id] || "Uncategorized";
       categoryCounts[category] = (categoryCounts[category] || 0) + 1;
     });
-  
+    console.log("categoryCounts", categoryCounts);
     return categoryCounts;
-  };
+  }
 
   const wikidataCategoryMap = {
     // 🧠 Cultural/Educational
