@@ -40,13 +40,12 @@ body {
   z-index: 10;
 }
 
-.donut-svg {
+.spectral-donut {
+  max-width: 300px;
   width: 100%;
-  max-width: 420px; /* or your desired 70% of original */
   height: auto;
-  display: block;
-  margin: 0 auto;
 }
+
 
 #hint {
   position: absolute;
@@ -151,4 +150,10 @@ body {
   color: #333;
   border-bottom: 1px solid #ccc;
   padding-bottom: 4px;
+}
+
+.donut-tooltip {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color: #333;
+  white-space: nowrap;
 }

@@ -118,9 +118,7 @@ export function drawCircularBarChart(data, selector) {
     .domain([0, d3.max(data, d => d.value)])
     .range([innerRadius, outerRadius]);
 
-    const color = d3.scaleOrdinal()
-    .domain(data.map(d => d.category))
-    .range(d3.schemeSet2);  // use any d3 color scheme you like
+  const color = d => categoryColorMap[d] || "#ccc"; // fallback for unknown categories
   
   svg.append("g")
     .selectAll("path")
@@ -172,59 +170,6 @@ export function drawCircularBarChart(data, selector) {
       .text("International Organization Types")
 };
 
-export function createSpectralDonutChart(data, width = 420) {
-  const height = Math.min(width, 500);
-  const radius = Math.min(width, height) / 2;
-
-  const arc = d3.arc()
-    .innerRadius(radius * 0.67)
-    .outerRadius(radius - 1);
-
-  const pie = d3.pie()
-    .padAngle(1 / radius)
-    .sort(null)
-    .value(d => d.value);
-
-  const color = d3.scaleOrdinal()
-    .domain(data.map(d => d.name))
-    .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse());
-
-  const svg = d3.create("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("viewBox", [-width / 2, -height / 2, width, height])
-    .attr("style", "max-width: 100%; height: auto; display: block; margin: 0 auto;");
-
-  svg.append("g")
-    .selectAll("path")
-    .data(pie(data))
-    .join("path")
-      .attr("fill", d => color(d.data.name))
-      .attr("d", arc)
-    .append("title")
-      .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
-
-  svg.append("g")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", 12)
-    .attr("text-anchor", "middle")
-    .selectAll("text")
-    .data(pie(data))
-    .join("text")
-      .attr("transform", d => `translate(${arc.centroid(d)})`)
-      .call(text => text.append("tspan")
-        .attr("y", "-0.4em")
-        .attr("font-weight", "bold")
-        .text(d => d.data.name))
-      .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
-        .attr("x", 0)
-        .attr("y", "0.7em")
-        .attr("fill-opacity", 0.7)
-        .text(d => d.data.value.toLocaleString("en-US")));
-
-  return svg.node();
-}
-
 const categoryColorMap = {
   "Cultural/Educational": "#66c2a5",
   "Economic/Trade Organizations": "#fc8d62",
@@ -237,3 +182,96 @@ const categoryColorMap = {
   "Scientific & Technical": "#1f78b4",
   "Sports Organizations": "#33a02c"
 };
+
+export function createSpectralDonutChart(data, width = 420) {
+  const scaleFactor = 0.6;
+  const radius = width / 2 * scaleFactor;
+  const height = radius * 2 + 50;
+
+  const arc = d3.arc()
+    .innerRadius(radius * 0.67)
+    .outerRadius(radius - 1);
+
+  const pie = d3.pie()
+    .padAngle(1 / radius)
+    .sort(null)
+    .value(d => d.value);
+
+  const color = d => categoryColorMap[d] || "#ccc";
+
+  const svg = d3.create("svg")
+    .attr("class", "spectral-donut")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [-width / 2, -radius - 20, width, height])
+    .attr("style", "max-width: 100%; height: auto; display: block; margin: 0 auto;");
+
+  // Title
+  svg.append("text")
+    .attr("text-anchor", "middle")
+    .attr("y", -radius - 5) // Slightly above the chart
+    .style("font-size", "18px")
+    .style("font-weight", "bold")
+    .text("Treaty Types Categorized");
+
+  // Tooltip setup
+  const tooltip = d3.select("body")
+    .append("div")
+    .attr("class", "donut-tooltip")
+    .style("position", "absolute")
+    .style("padding", "6px 10px")
+    .style("background", "white")
+    .style("border", "1px solid #ccc")
+    .style("border-radius", "4px")
+    .style("pointer-events", "none")
+    .style("font-size", "12px")
+    .style("display", "none")
+    .style("z-index", "999");
+
+  // Group to shift donut downward
+  const chartGroup = svg.append("g")
+    .attr("transform", `translate(0, 15)`); // Adjust this value for more/less spacing
+
+  // Draw arcs
+  chartGroup
+    .selectAll("path")
+    .data(pie(data))
+    .join("path")
+    .attr("fill", d => color(d.data.name))
+    .attr("d", arc)
+    .on("mouseover", (event, d) => {
+      tooltip
+        .style("display", "block")
+        .html(`<strong>${d.data.name}</strong><br>${d.data.value.toLocaleString()}`);
+    })
+    .on("mousemove", event => {
+      tooltip
+        .style("top", `${event.pageY - 28}px`)
+        .style("left", `${event.pageX + 10}px`);
+    })
+    .on("mouseout", () => {
+      tooltip.style("display", "none");
+    });
+
+  // Optional: remove this label group if using a legend instead
+  chartGroup
+    .append("g")
+    .attr("font-family", "sans-serif")
+    .attr("font-size", 12)
+    .attr("text-anchor", "middle")
+    .selectAll("text")
+    .data(pie(data))
+    .join("text")
+    .attr("transform", d => `translate(${arc.centroid(d)})`)
+    .call(text => text.append("tspan")
+      .attr("y", "-0.4em")
+      .attr("font-weight", "bold")
+      .text(d => d.data.name))
+    .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+      .attr("x", 0)
+      .attr("y", "0.7em")
+      .attr("fill-opacity", 0.7)
+      .text(d => d.data.value.toLocaleString("en-US")));
+
+  return svg.node();
+}
