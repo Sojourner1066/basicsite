@@ -2,25 +2,38 @@
 <html>
   <head>
     <title>deck.gl ArcLayer Example</title>
-
     <script src="https://unpkg.com/deck.gl@^9.0.0/dist.min.js"></script>
     <script src='https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.js'></script>
     <link href='https://unpkg.com/maplibre-gl@3.6.0/dist/maplibre-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <div id="controls">
-      <div id="participant-control">
-        <label for="participant-slider">
-          Max Treaty Participants: <span id="participant-value">30</span>
-        </label>
-        <input type="range" id="participant-slider" min="0" max="7" step="1" value="2" />
+    <div id="ui-wrapper">
+      <div id="controls">
+        <div id="participant-control">
+          <label for="participant-slider">
+            Max Treaty Participants: <span id="participant-value">30</span>
+          </label>
+          <input type="range" id="participant-slider" min="0" max="7" step="1" value="2" />
+        </div>
+      </div>
+      <div id="chart-container"></div>
+      <!-- population bar chart -->
+      <div id="pop-chart-container"></div>
+      <!-- human development index bar chart -->
+      <div id="gdp-chart-container">
       </div>
     </div>
-    <div id="chart-container"></div>
-    <div id="pop-chart-container"></div>
+    <div id="treaty-list"></div>
+    <!-- Treaty Type circle chart -->
     <div id="hint">Hold Shift or Right click to rotate and pitch map</div>
     <script type="module" src="main.js"></script>
+    <div id="info-modal">
+      <div class="modal-box">
+        <p>Welcome! Use the slider to explore treaty participation between countries. Click any country on the map to update the visualization.</p>
+        <button id="dismiss-btn">Got it</button>
+      </div>
+    </div>
+    <div id="tooltip" style="position:absolute; padding:6px 10px; background:white; border:1px solid #ccc; border-radius:4px; pointer-events:none; font-size:12px; display:none; z-index:3000;"></div>
   </body>
 </html>

@@ -1,5 +1,48 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+// export function drawMiniHorizontalBarChart(data, selector) {
+//   const container = d3.select(selector);
+//   container.selectAll("*").remove();
+
+//   const margin = { top: 10, right: 10, bottom: 20, left: 100 };
+//   const width = 300 - margin.left - margin.right;
+//   const height = 200 - margin.top - margin.bottom;
+
+//   const svg = container.append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//     .style("background-color", "white")
+//     .style("border-radius", "8px")
+//     .append("g")
+//     .attr("transform", `translate(${margin.left},${margin.top})`);
+
+//   const x = d3.scaleLinear()
+//     .domain([0, d3.max(data, d => d.value)])
+//     .range([0, width]);
+
+//   const y = d3.scaleBand()
+//     .domain(data.map(d => d.category))
+//     .range([0, height])
+//     .padding(0.1);
+
+//   svg.append("g")
+//     .call(d3.axisLeft(y));
+
+//   svg.append("g")
+//     .attr("transform", `translate(0,${height})`)
+//     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
+
+//   svg.selectAll("rect")
+//     .data(data)
+//     .enter()
+//     .append("rect")
+//     .attr("y", d => y(d.category))
+//     .attr("height", y.bandwidth())
+//     .attr("x", 0)
+//     .attr("width", d => x(d.value))
+//     .attr("fill", "#4682b4");
+// }
+
 export function drawMiniHorizontalBarChart(data, selector, title) {
   const container = d3.select(selector);
   container.selectAll("*").remove();
@@ -28,19 +71,8 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .style("background-color", "white")
-    .style("border-radius", "8px");
-
-  // Append centered title
-  svg.append("text")
-    .attr("x", (width + margin.left + margin.right) / 2)
-    .attr("y", 20)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("font-weight", "bold")
-    .text(title);
-
-  // Create chart group below the title
-  const chartGroup = svg.append("g")
+    .style("border-radius", "8px")
+    .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   const x = d3.scaleLinear()
@@ -52,20 +84,12 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .range([0, height])
     .padding(0.1);
 
-  chartGroup.append("g").call(d3.axisLeft(y));
-  chartGroup.append("g")
+  svg.append("g").call(d3.axisLeft(y));
+  svg.append("g")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
 
-  let displayLabel;
-
-  if (title.split(" ")[0] === "GDP") {
-    displayLabel = "GDP: $";
-  } else {
-    displayLabel = "Population: ";
-  }
-    
-  chartGroup.selectAll("rect")
+  svg.selectAll("rect")
     .data(data)
     .enter()
     .append("rect")
@@ -77,7 +101,7 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .on("mouseover", (event, d) => {
       tooltip
         .style("display", "block")
-        .html(`<strong>${d.fullName}</strong><br>${displayLabel}${d.value.toLocaleString()}`);
+        .html(`<strong>${d.fullName}</strong><br>${d.dataType}: ${d.value.toLocaleString()}`);
     })
     .on("mousemove", (event) => {
       tooltip
@@ -87,7 +111,15 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .on("mouseout", () => {
       tooltip.style("display", "none");
     });
-}
+
+    svg.append("text")
+    .attr("x", (width + margin.left + margin.right) / 2)
+    .attr("y", -margin.top / 2 + 5)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .text(title);
+};
 
 export function drawCircularBarChart(data, selector) {
   const container = d3.select(selector);
@@ -170,70 +202,4 @@ export function drawCircularBarChart(data, selector) {
       .style("font-size", "18px")
       .style("font-weight", "bold")
       .text("International Organization Types")
-};
-
-export function createSpectralDonutChart(data, width = 420) {
-  const height = Math.min(width, 500);
-  const radius = Math.min(width, height) / 2;
-
-  const arc = d3.arc()
-    .innerRadius(radius * 0.67)
-    .outerRadius(radius - 1);
-
-  const pie = d3.pie()
-    .padAngle(1 / radius)
-    .sort(null)
-    .value(d => d.value);
-
-  const color = d3.scaleOrdinal()
-    .domain(data.map(d => d.name))
-    .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse());
-
-  const svg = d3.create("svg")
-    .attr("width", width)
-    .attr("height", height)
-    .attr("viewBox", [-width / 2, -height / 2, width, height])
-    .attr("style", "max-width: 100%; height: auto; display: block; margin: 0 auto;");
-
-  svg.append("g")
-    .selectAll("path")
-    .data(pie(data))
-    .join("path")
-      .attr("fill", d => color(d.data.name))
-      .attr("d", arc)
-    .append("title")
-      .text(d => `${d.data.name}: ${d.data.value.toLocaleString()}`);
-
-  svg.append("g")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", 12)
-    .attr("text-anchor", "middle")
-    .selectAll("text")
-    .data(pie(data))
-    .join("text")
-      .attr("transform", d => `translate(${arc.centroid(d)})`)
-      .call(text => text.append("tspan")
-        .attr("y", "-0.4em")
-        .attr("font-weight", "bold")
-        .text(d => d.data.name))
-      .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
-        .attr("x", 0)
-        .attr("y", "0.7em")
-        .attr("fill-opacity", 0.7)
-        .text(d => d.data.value.toLocaleString("en-US")));
-
-  return svg.node();
-}
-
-const categoryColorMap = {
-  "Cultural/Educational": "#66c2a5",
-  "Economic/Trade Organizations": "#fc8d62",
-  "Environmental": "#8da0cb",
-  "General International Orgs": "#e78ac3",
-  "Intergovernmental Organizations (IGOs)": "#a6d854",
-  "Military Alliances": "#ffd92f",
-  "Political Alliances": "#e5c494",
-  "Religious or Ideological": "#b3b3b3",
-  "Scientific & Technical": "#1f78b4",
-  "Sports Organizations": "#33a02c"
 };
