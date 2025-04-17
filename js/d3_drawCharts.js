@@ -171,3 +171,79 @@ export function drawCircularBarChart(data, selector) {
       .style("font-weight", "bold")
       .text("International Organization Types")
 };
+
+export function drawDonutChart(data, selector, title = "") {
+  const container = d3.select(selector);
+  container.selectAll("*").remove();
+
+  const width = 600;
+  const height = 600;
+  const radius = Math.min(width, height) / 2 - 40;
+
+  const color = d => categoryColorMap[d] || "#ccc"; // fallback if unknown
+
+  const pie = d3.pie()
+    .value(d => d.value)
+    .sort(null);
+
+  const arc = d3.arc()
+    .innerRadius(radius * 0.5)
+    .outerRadius(radius);
+
+  const svg = container.append("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("preserveAspectRatio", "xMidYMid meet")
+    .style("width", "100%")
+    .style("max-width", `${width}px`)
+    .style("height", "auto")
+    .style("display", "block")
+    .style("margin", "0 auto")
+    .append("g")
+    .attr("transform", `translate(${width / 2}, ${height / 2})`);
+
+  // Donut arcs
+  svg.selectAll("path")
+    .data(pie(data))
+    .join("path")
+    .attr("d", arc)
+    .attr("fill", d => color(d.data.category));
+
+  // Chart title
+  if (title) {
+    svg.append("text")
+      .attr("text-anchor", "middle")
+      .attr("y", -radius - 20)
+      .style("font-size", "18px")
+      .style("font-weight", "bold")
+      .text(title);
+  }
+
+  // Legend
+  const legendContainer = container.append("div")
+    .attr("class", "donut-legend")
+    .style("display", "flex")
+    .style("justify-content", "center")
+    .style("flex-wrap", "wrap")
+    .style("margin-top", "12px");
+
+  data.forEach(d => {
+    legendContainer.append("div")
+      .style("display", "flex")
+      .style("align-items", "center")
+      .style("margin", "4px 10px")
+      .html(`<span style="display:inline-block;width:12px;height:12px;background:${color(d.category)};margin-right:6px;border-radius:2px;"></span>${d.category}`);
+  });
+}
+
+const categoryColorMap = {
+  "Cultural/Educational": "#66c2a5",
+  "Economic/Trade Organizations": "#fc8d62",
+  "Environmental": "#8da0cb",
+  "General International Orgs": "#e78ac3",
+  "Intergovernmental Organizations (IGOs)": "#a6d854",
+  "Military Alliances": "#ffd92f",
+  "Political Alliances": "#e5c494",
+  "Religious or Ideological": "#b3b3b3",
+  "Scientific & Technical": "#1f78b4",
+  "Sports Organizations": "#33a02c"
+};

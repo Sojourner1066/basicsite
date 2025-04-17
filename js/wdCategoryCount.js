@@ -1,28 +1,37 @@
-export async function wdCategoryCounts(iso3 = "NGA") {
-    const query = `SELECT ?country ?countryLabel ?membership ?membershipLabel ?MembershipType ?MembershipTypeLabel WHERE {
-                    ?country wdt:P298 "${iso3}".  # ISO 3166-1 alpha-3 code for Nigeria
-                    ?country wdt:P463 ?membership.  # Get memberships
-                    OPTIONAL {
-                        ?membership wdt:P31 ?MembershipType.  # Rename instanceOf to MembershipType
-                    }
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-                    }
-                    ORDER BY ?membershipLabel`;
+export async function wdCategoryCounts(iso3 = "NGA", treatyCountryGroups = {}) {
+  const treatyNames = new Set(Object.keys(treatyCountryGroups));
+
   
-    const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`;
-  
-    try {
-      const response = await fetch(url, {
-        headers: { 'Accept': 'application/json' }
-      });
-      const data = await response.json();
-    //   console.log(data.results.bindings);
-      return getUniqueMembershipTypes(data.results.bindings); // ✅ return result here
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      return null;
+
+  const query = `
+    SELECT ?country ?countryLabel ?membership ?membershipLabel ?MembershipType ?MembershipTypeLabel WHERE {
+      ?country wdt:P298 "${iso3}".
+      ?country wdt:P463 ?membership.
+      OPTIONAL {
+        ?membership wdt:P31 ?MembershipType.
+      }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
     }
-  };
+    ORDER BY ?membershipLabel
+  `;
+
+  const url = `https://query.wikidata.org/sparql?format=json&query=${encodeURIComponent(query)}`;
+
+  try {
+    const response = await fetch(url, {
+      headers: { 'Accept': 'application/json' }
+    });
+    const data = await response.json();
+    const rawData = data.results.bindings;
+    const filteredData = rawData.filter(entry =>
+      entry.membershipLabel && treatyNames.has(entry.membershipLabel.value)
+    );
+    return getUniqueMembershipTypes(filteredData);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return null;
+  }
+}
 
 function getUniqueMembershipTypes(data) {
     const types = new Set();

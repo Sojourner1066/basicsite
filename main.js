@@ -1,8 +1,8 @@
 const { DeckGL, GeoJsonLayer, ArcLayer } = deck;
 // import { getRandomISO3Codes } from './js/getRandomISO3Codes.js';
 // import { wdGetAllMembershipsbyISO } from './js/wdGetAllMembershipsbyISO.js';
+
 import { wdCategoryCounts } from './js/wdCategoryCount.js';
-import { test } from './js/catagorizeCountTreaties.js';
 
 import { drawCircularBarChart } from './js/d3_drawCharts.js';
 import { drawMiniHorizontalBarChart } from './js/d3_drawCharts.js';
@@ -125,14 +125,21 @@ async function renderLayers(data, selectedFeature) {
 
 
   const targetIsoCodes = getUniqueMemberCountries(treatyCountryGroups, selectedCountryISO);
-  
 
-  // const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
-  // drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
-  
+  // console.log("tcg", treatyCountryGroups);
+  // const CategoryCounts = await wdCategoryCounts(selectedCountryISO, treatyCountryGroups);
+  // drawCircularBarChart(
+  //   Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })),
+  //   "#chart-container"
+  // );
+  const CategoryCounts = await wdCategoryCounts(selectedCountryISO, treatyCountryGroups);
+  const donutData = Object.entries(CategoryCounts).map(([category, value]) => ({
+    category,
+    value
+  }));
+  drawDonutChart(donutData, "#chart-container", "Treaty Membership Types");
   
   const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;
-  console.log("selectedData", selectedData);
 
   const MAX_LABEL_LENGTH = 15;
 
