@@ -22,17 +22,6 @@ function filterByIsoCodes(data, isoCodes) {
   return data.results.bindings.filter(entry => isoSet.has(entry.isoCode.value));
 }
 
-// getSmallTreatyMembersGrouped("USA", 130).then(result => {
-//   console.log("Grouped Treaty Members:", result);
-// });
-
-// const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
-// const relatedCountries = getUniqueMemberCountries(treatyCountryGroups, selectedCountryISO);
-
-
-// const CategoryCounts = await wdCategoryCounts("NGA");
-// drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
-
 const deckgl = new DeckGL({
 // Positron (light)
 // mapStyle: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
@@ -43,7 +32,7 @@ const deckgl = new DeckGL({
 // Dark Matter (no labels)
 // mapStyle: 'https://basemaps.cartocdn.com/gl/dark-matter-nolabels-gl-style/style.json',
 // Voyager (more detail)
-mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+  mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
 // Voyager (no labels)
 // mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-nolabels-gl-style/style.json',
   initialViewState: {
@@ -56,7 +45,6 @@ mapStyle: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
   },
   controller: true,
   layers: [],
-  // getTooltip: ({ object }) => object && object.properties.name
   getTooltip: ({ object }) => object?.properties?.name
 });
 
@@ -112,9 +100,6 @@ async function renderLayers(data, selectedFeature) {
   } else {
     selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
   }
-  
-  // this the default number of participants in a treaty
-  // const maxParticipants = 40; // max number of participants in a treaty
 
   const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
   console.log("treatyCountryGroups", treatyCountryGroups);
@@ -125,10 +110,9 @@ async function renderLayers(data, selectedFeature) {
 
 
   const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
-  // drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
   drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
   
-  // const selectedData = filterByIsoCodes(CountryStats, ["USA", "GBR", "NGA"]);
+  
   const selectedData = filterByIsoCodes(CountryStats, targetIsoCodes);;
   console.log("selectedData", selectedData);
 
@@ -137,7 +121,6 @@ async function renderLayers(data, selectedFeature) {
   const populationData = selectedData
     .map(d => ({
       fullName: d.countryLabel.value,
-      dataType: "Population",
       category: d.countryLabel.value.length > MAX_LABEL_LENGTH
         ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
         : d.countryLabel.value,
@@ -146,13 +129,12 @@ async function renderLayers(data, selectedFeature) {
     .sort((a, b) => b.value - a.value)
     .slice(0, 10);
 
-  drawMiniHorizontalBarChart(populationData, "#pop-chart-container");
+  drawMiniHorizontalBarChart(populationData, "#pop-chart-container", "Population by Country (Top 10)");
 
   const gdpData = selectedData
   .filter(d => d.gdp && !isNaN(+d.gdp.value)) // ensure GDP exists and is numeric
   .map(d => ({
     fullName: d.countryLabel.value,
-    dataType: "GDP",
     category: d.countryLabel.value.length > MAX_LABEL_LENGTH
       ? d.countryLabel.value.slice(0, MAX_LABEL_LENGTH) + "…"
       : d.countryLabel.value,
@@ -161,18 +143,9 @@ async function renderLayers(data, selectedFeature) {
   .sort((a, b) => b.value - a.value)
   .slice(0, 10);
 
-  drawMiniHorizontalBarChart(gdpData, "#gdp-chart-container");
-
-  
-
-
-  // selectedFeature = data.features.find(f => f.properties.adm0_iso === selectedCountryISO);
-  // console.log(selectedFeature.properties.adm0_iso);
-  // const membershipJSON = await wdGetAllMembershipsbyISO(selectedFeature.properties.adm0_iso);
-  // console.log(membershipJSON);
-  // const targetIsoCodes = membershipJSON.results.bindings.map(d => d.targetCode.value);
-  //getRandomISO3Codes(8);
+  drawMiniHorizontalBarChart(gdpData, "#gdp-chart-container", "GDP by Country (USD) (Top 10)");
   const arcLayer = getArcLayer(data, selectedFeature,targetIsoCodes);
+
 
 const countyLayer = new GeoJsonLayer({
   id: 'geojson',
@@ -195,28 +168,7 @@ const countyLayer = new GeoJsonLayer({
   onClick: info => renderLayers(data, info.object)
 });
   deckgl.setProps({ layers: [countyLayer, arcLayer] });
-
-  // const CategoryCounts = await wdCategoryCounts(selectedFeature.properties.adm0_iso);
-  // // drawBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
-  // drawCircularBarChart(Object.entries(CategoryCounts).map(([category, value]) => ({ category, value })), "#chart-container");
-  
-  // const selectedData = filterByIsoCodes(CountryStats, ["USA", "GBR", "NGA"]);
-
-  // const populationData = selectedData.map(d => ({
-  //   category: d.countryLabel.value,
-  //   value: +d.population.value
-  // }));
-  // drawMiniHorizontalBarChart(populationData, "#pop-chart-container");
 }
-
-// fetch('data/WorldPoly_with_centroids.geojson')
-//   .then(res => res.json())
-//   // .then(data => renderLayers(data));
-//   .then(data => {
-//     currentGeoData = data;
-//     renderLayers(data);
-//   });
-
 fetch('data/WorldPoly_with_centroids.geojson')
   .then(res => res.json())
   .then(data => {

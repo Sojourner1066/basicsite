@@ -1,5 +1,48 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+// export function drawMiniHorizontalBarChart(data, selector) {
+//   const container = d3.select(selector);
+//   container.selectAll("*").remove();
+
+//   const margin = { top: 10, right: 10, bottom: 20, left: 100 };
+//   const width = 300 - margin.left - margin.right;
+//   const height = 200 - margin.top - margin.bottom;
+
+//   const svg = container.append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//     .style("background-color", "white")
+//     .style("border-radius", "8px")
+//     .append("g")
+//     .attr("transform", `translate(${margin.left},${margin.top})`);
+
+//   const x = d3.scaleLinear()
+//     .domain([0, d3.max(data, d => d.value)])
+//     .range([0, width]);
+
+//   const y = d3.scaleBand()
+//     .domain(data.map(d => d.category))
+//     .range([0, height])
+//     .padding(0.1);
+
+//   svg.append("g")
+//     .call(d3.axisLeft(y));
+
+//   svg.append("g")
+//     .attr("transform", `translate(0,${height})`)
+//     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
+
+//   svg.selectAll("rect")
+//     .data(data)
+//     .enter()
+//     .append("rect")
+//     .attr("y", d => y(d.category))
+//     .attr("height", y.bandwidth())
+//     .attr("x", 0)
+//     .attr("width", d => x(d.value))
+//     .attr("fill", "#4682b4");
+// }
+
 export function drawMiniHorizontalBarChart(data, selector, title) {
   const container = d3.select(selector);
   container.selectAll("*").remove();
@@ -28,19 +71,8 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .style("background-color", "white")
-    .style("border-radius", "8px");
-
-  // Append centered title
-  svg.append("text")
-    .attr("x", (width + margin.left + margin.right) / 2)
-    .attr("y", 20)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("font-weight", "bold")
-    .text(title);
-
-  // Create chart group below the title
-  const chartGroup = svg.append("g")
+    .style("border-radius", "8px")
+    .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   const x = d3.scaleLinear()
@@ -52,12 +84,12 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .range([0, height])
     .padding(0.1);
 
-  chartGroup.append("g").call(d3.axisLeft(y));
-  chartGroup.append("g")
+  svg.append("g").call(d3.axisLeft(y));
+  svg.append("g")
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(x).ticks(3).tickFormat(d3.format(".2s")));
 
-  chartGroup.selectAll("rect")
+  svg.selectAll("rect")
     .data(data)
     .enter()
     .append("rect")
@@ -69,7 +101,7 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .on("mouseover", (event, d) => {
       tooltip
         .style("display", "block")
-        .html(`<strong>${d.fullName}</strong><br>${title}: ${d.value.toLocaleString()}`);
+        .html(`<strong>${d.fullName}</strong><br>${d.dataType}: ${d.value.toLocaleString()}`);
     })
     .on("mousemove", (event) => {
       tooltip
@@ -79,7 +111,15 @@ export function drawMiniHorizontalBarChart(data, selector, title) {
     .on("mouseout", () => {
       tooltip.style("display", "none");
     });
-}
+
+    svg.append("text")
+    .attr("x", (width + margin.left + margin.right) / 2)
+    .attr("y", -margin.top / 2 + 5)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .style("font-weight", "bold")
+    .text(title);
+};
 
 export function drawCircularBarChart(data, selector) {
   const container = d3.select(selector);
