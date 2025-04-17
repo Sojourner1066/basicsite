@@ -118,3 +118,19 @@ body {
 #dismiss-btn:hover {
   background-color: #005ecb;
 }
+
+#treaty-list {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  max-width: 300px;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  color: #333;
+  z-index: 1000;
+  overflow-y: auto;
+  max-height: 80vh;
+}

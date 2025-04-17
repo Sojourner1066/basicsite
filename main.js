@@ -102,9 +102,25 @@ async function renderLayers(data, selectedFeature) {
   }
 
   const treatyCountryGroups = await getSmallTreatyMembersGrouped(selectedCountryISO, maxParticipants);
-  console.log("treatyCountryGroups", treatyCountryGroups);
-  console.log("ISO", selectedCountryISO);
-  console.log("max", maxParticipants);
+
+  // Convert to array and sort by number of members (descending)
+  const sortedTreaties = Object.entries(treatyCountryGroups)
+    .map(([treaty, countries]) => ({
+      treaty,
+      count: countries.length
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  // Log to console or inject into DOM
+  console.log("Treaties sorted by number of members:");
+  sortedTreaties.forEach(t => {
+    console.log(`${t.treaty}: ${t.count} members`);
+  });
+  const container = document.getElementById("treaty-list");
+  container.innerHTML = sortedTreaties.map(t => `<div><strong>${t.treaty}</strong>: ${t.count} members</div>`).join('');
+  // console.log("treatyCountryGroups", treatyCountryGroups);
+  // console.log("ISO", selectedCountryISO);
+  // console.log("max", maxParticipants);
 
   const targetIsoCodes = getUniqueMemberCountries(treatyCountryGroups, selectedCountryISO);
 
