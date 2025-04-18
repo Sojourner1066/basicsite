@@ -170,17 +170,28 @@ export function drawCircularBarChart(data, selector) {
       .text("International Organization Types")
 };
 
+// #189AB4
+// #D6AD60
+// #76B947
+// #D9A5B3
+// #7FA6C9
+// #d2d4a4
+// #b1e3b1
+// #887BB0
+// #955f63
+// #A49393
+
 const categoryColorMap = {
-  "Cultural/Educational": "#66c2a5",
-  "Economic/Trade Organizations": "#fc8d62",
-  "Environmental": "#8da0cb",
-  "General International Orgs": "#e78ac3",
-  "Intergovernmental Organizations (IGOs)": "#a6d854",
-  "Military Alliances": "#ffd92f",
-  "Political Alliances": "#e5c494",
-  "Religious or Ideological": "#b3b3b3",
-  "Scientific & Technical": "#1f78b4",
-  "Sports Organizations": "#33a02c"
+  "Cultural/Educational": "#189AB4",        // Deep blue
+  "Economic/Trade Organizations": "#D6AD60", // Warm gold
+  "Environmental": "#76B947",               // Fresh green
+  "General International Orgs": "#D9A5B3",   // Soft rose
+  "Intergovernmental Organizations (IGOs)": "#7FA6C9", // Soft blue
+  "Military Alliances": "#d2d4a4",           // Earthy khaki
+  "Political Alliances": "#b1e3b1",          // Pale lavender
+  "Religious or Ideological": "#887BB0",     // Muted purple
+  "Scientific & Technical": "#955f63",       // Dusty crimson
+  "Sports Organizations": "#A49393"          // Taupe gray
 };
 
 export function createSpectralDonutChart(data, width = 420) {
@@ -262,16 +273,19 @@ export function createSpectralDonutChart(data, width = 420) {
     .selectAll("text")
     .data(pie(data))
     .join("text")
-    .attr("transform", d => `translate(${arc.centroid(d)})`)
-    .call(text => text.append("tspan")
-      .attr("y", "-0.4em")
-      .attr("font-weight", "bold")
-      .text(d => d.data.name))
-    .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
-      .attr("x", 0)
-      .attr("y", "0.7em")
-      .attr("fill-opacity", 0.7)
-      .text(d => d.data.value.toLocaleString("en-US")));
+      .attr("transform", d => `translate(${arc.centroid(d)})`)
+      .style("stroke", "white")
+      .style("stroke-width", 3)
+      .style("paint-order", "stroke")
+      .call(text => text.append("tspan")
+        .attr("y", "-0.4em")
+        .attr("font-weight", "bold")
+        .text(d => d.data.name))
+      .call(text => text.filter(d => (d.endAngle - d.startAngle) > 0.25).append("tspan")
+        .attr("x", 0)
+        .attr("y", "0.7em")
+        .attr("fill-opacity", 0.7)
+        .text(d => d.data.value.toLocaleString("en-US")));
 
   return svg.node();
 }

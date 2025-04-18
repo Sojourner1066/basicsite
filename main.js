@@ -50,9 +50,34 @@ const deckgl = new DeckGL({
   getTooltip: ({ object }) => object?.properties?.name
 });
 
+// const slider = document.getElementById("participant-slider");
+// slider.value = "2"; // force it visually to match the intended value
+// const valueLabel = document.getElementById("participant-value");
+
+// slider.addEventListener("input", () => {
+//   const selected = presets[parseInt(slider.value)];
+//   maxParticipants = selected;
+//   valueLabel.textContent = selected === Infinity ? "All" : selected;
+
+//   if (currentGeoData) {
+//     renderLayers(currentGeoData, null);
+//   }
+// });
+
 const slider = document.getElementById("participant-slider");
 slider.value = "2"; // force it visually to match the intended value
 const valueLabel = document.getElementById("participant-value");
+
+function updateSliderBackground() {
+  const val = +slider.value;
+  const max = +slider.max;
+  const percent = (val / max) * 100;
+
+  slider.style.background = `linear-gradient(to right, #B0ADCA 0%, #B0ADCA ${percent}%, #e0e0e0 ${percent}%, #e0e0e0 100%)`;
+}
+
+// Initial load
+updateSliderBackground();
 
 slider.addEventListener("input", () => {
   const selected = presets[parseInt(slider.value)];
@@ -62,7 +87,11 @@ slider.addEventListener("input", () => {
   if (currentGeoData) {
     renderLayers(currentGeoData, null);
   }
+
+  // Update track color
+  updateSliderBackground();
 });
+
 
 function getArcLayer(data, selectedFeature, targetIsoCodes) {
     const { centroid } = selectedFeature.properties;
