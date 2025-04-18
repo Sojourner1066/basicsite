@@ -1,6 +1,9 @@
 let treatyMembers = [];
 
-// Dynamically load TreatyMembers.json
+/**
+ * Loads local treaty metadata from TreatyMembers.json (only once).
+ * Includes organization URIs and member counts.
+ */
 async function loadTreatyMembers() {
   if (treatyMembers.length === 0) {
     const response = await fetch('./data/TreatyMembers.json');
@@ -10,7 +13,9 @@ async function loadTreatyMembers() {
   return treatyMembers;
 }
 
-// Query all treaty memberships for a given ISO code
+/**
+ * Queries Wikidata for all treaty memberships (organization URIs) for a given country ISO3 code.
+ */
 async function getCountryMemberships(isoCode) {
   const query = `
     SELECT ?organization WHERE {
@@ -22,16 +27,12 @@ async function getCountryMemberships(isoCode) {
   const response = await fetch(url);
   const data = await response.json();
 
-  const countryMemebership = data.results.bindings.map(b => b.organization.value);
-  // const testing =  getUniqueMembershipTypes(countryMemebership);
-  // console.log("Membership Types: ", testing);
-  // console.log("Country Memberships: ", countryMemebership);
-  return countryMemebership;
-
-  // return data.results.bindings.map(b => b.organization.value);
+  return data.results.bindings.map(b => b.organization.value);
 }
 
-// Filter local treaties by participant threshold
+/**
+ * Filters treaties from local data where participant count is below maxCount.
+ */
 async function filterTreatiesByMemberCount(orgURIs, maxCount) {
   const data = await loadTreatyMembers();
   return data
@@ -39,7 +40,10 @@ async function filterTreatiesByMemberCount(orgURIs, maxCount) {
     .map(t => t.organization);
 }
 
-// Query Wikidata for members of those treaties and return grouped by org
+/**
+ * For a list of treaty URIs, queries Wikidata to get ISO codes of all member countries.
+ * Returns a mapping: treaty label → [ISO codes]
+ */
 async function getMembersOfTreaties(treatyURIs) {
   if (treatyURIs.length === 0) return {};
 
@@ -68,7 +72,10 @@ async function getMembersOfTreaties(treatyURIs) {
   return grouped;
 }
 
-// Main function to export
+/**
+ * Main function to get treaty groupings for a country,
+ * filtered to those with fewer than `maxParticipants`.
+ */
 export async function getSmallTreatyMembersGrouped(isoCode, maxParticipants) {
   const memberships = await getCountryMemberships(isoCode);
   const smallTreaties = await filterTreatiesByMemberCount(memberships, maxParticipants);
@@ -76,6 +83,10 @@ export async function getSmallTreatyMembersGrouped(isoCode, maxParticipants) {
   return groupedMembers;
 }
 
+/**
+ * Extracts a unique list of member ISO codes from grouped treaty results,
+ * excluding the original country.
+ */
 export function getUniqueMemberCountries(groupedResults, originalISO) {
   const countrySet = new Set();
 
@@ -89,4 +100,3 @@ export function getUniqueMemberCountries(groupedResults, originalISO) {
 
   return Array.from(countrySet);
 }
-
