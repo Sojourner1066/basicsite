@@ -1,3 +1,4 @@
+/* Base layout */
 html, body {
   margin: 0;
   padding: 0;
@@ -10,6 +11,7 @@ body {
   position: relative;
 }
 
+/* Ensure map and canvas layers stay behind UI elements */
 .deckgl-overlay, canvas {
   position: absolute !important;
   top: 0;
@@ -17,6 +19,7 @@ body {
   z-index: 1;
 }
 
+/* Wrapper for UI elements overlaid on map */
 #ui-wrapper {
   position: absolute;
   top: 1rem;
@@ -28,7 +31,7 @@ body {
   max-width: 400px;
 }
 
-
+/* Panel-style card UI for charts and slider */
 #controls,
 #chart-container,
 #pop-chart-container,
@@ -40,13 +43,14 @@ body {
   z-index: 10;
 }
 
+/* Donut chart max width on small screens */
 .spectral-donut {
   max-width: 300px;
   width: 100%;
   height: auto;
 }
 
-
+/* Hint displayed in corner for user guidance */
 #hint {
   position: absolute;
   bottom: 1rem;
@@ -62,12 +66,14 @@ body {
   transition: background 0.3s ease;
 }
 
+/* Label text next to slider value */
 #participant-value {
   display: inline-block;
-  min-width: 1.5em; /* enough for 'All', '150', etc. */
+  min-width: 1.5em;
   text-align: right;
 }
 
+/* Layout for slider control row */
 #participant-control {
   display: flex;
   align-items: center;
@@ -84,6 +90,7 @@ body {
   min-width: 0;
 }
 
+/* Modal for intro message */
 #info-modal {
   position: fixed;
   top: 0;
@@ -112,6 +119,7 @@ body {
   color: #333;
 }
 
+/* Dismiss button in modal */
 #dismiss-btn {
   padding: 0.5rem 1.25rem;
   font-size: 1rem;
@@ -126,6 +134,7 @@ body {
   background-color: #005ecb;
 }
 
+/* Treaty list panel */
 #treaty-list {
   position: absolute;
   top: 1rem;
@@ -140,9 +149,11 @@ body {
   z-index: 1000;
   overflow-y: auto;
   max-height: 80vh;
-  margin-bottom: 4px; /* or 6px for slightly more space */
+  margin-bottom: 4px;
   line-height: 1.4;
 }
+
+/* Heading inside treaty list panel */
 .treaty-title {
   margin: 0 0 8px 0;
   font-size: 1rem;
@@ -152,12 +163,14 @@ body {
   padding-bottom: 4px;
 }
 
+/* Tooltip for donut chart segments */
 .donut-tooltip {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   color: #333;
   white-space: nowrap;
 }
 
+/* Slider styling with colored fill and custom thumb */
 #participant-slider {
   -webkit-appearance: none;
   width: 100%;
@@ -168,6 +181,7 @@ body {
   transition: background 0.3s ease;
 }
 
+/* Slider thumb for Chrome/Safari */
 #participant-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -182,6 +196,7 @@ body {
   z-index: 1;
 }
 
+/* Firefox slider track and thumb */
 #participant-slider::-moz-range-track {
   background: none;
   height: 6px;
